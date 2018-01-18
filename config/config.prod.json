@@ -11,7 +11,7 @@
         "minsOffset": 30
     },
     "dbConfig": {
-        "url": "mongodb://localhost:27017/ies-sis"
+        "url": "mongodb://db:27017/ies-sis"
     },
     "authServerConfig": {
         "settings": {
