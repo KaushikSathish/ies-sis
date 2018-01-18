@@ -1,10 +1,10 @@
-FROM node:6
+FROM node:latest
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 RUN npm install
 RUN npm install -g bower grunt-cli
-RUN bower install 
+RUN bower install --allow-root
 ENV NODE_ENV=dev
 COPY . /usr/src/app
 EXPOSE 8008
