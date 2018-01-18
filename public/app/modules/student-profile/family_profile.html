@@ -1,0 +1,328 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewFamilyInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+    <h5 class="profile-sections-header">Family Information</h5>
+    <a class="pull-right  btn btn-default" ng-click="setEnvironmentForEditItem('family', true, -1, '#familyInfo')"><i class="icon-pencil7"></i></a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewFamilyInfo" ng-hide="editable['family']" class="collapse in">
+    <div class="row">
+      <div class="col-sm-6">
+        <ul class="labelvalue">
+          <li>
+            <p> <span> Father Name</span>{{studentRecord.family.fatherName | camelCase}}</p>
+          </li>
+          <li>
+            <p> <span> Father Contact Number</span>{{studentRecord.family.fatherContactNo}}</p>
+          </li>
+          <li>
+            <p> <span> Father Email ID</span>{{studentRecord.family.fatherEmailId}} </p>
+          </li>
+          <li>
+            <p> <span> Father Education Qualification</span>{{studentRecord.family.fatherEducationQualification}} </p>
+          </li>
+          <li ng-hide="studentRecord.family.fatherOccupation == 'OTHERS'">
+            <p> <span> Father Occupation</span>{{studentRecord.family.fatherOccupation}} </p>
+          </li>
+          <li ng-show="studentRecord.family.fatherOccupation == 'OTHERS'">
+            <p> <span> Father Occupation</span>{{studentRecord.family.fatherOccupationOther}} </p>
+          </li>
+          <li>
+            <p> <span> Father Annual Income</span>{{studentRecord.family.fatherIncome}}</p>
+          </li>
+          <li>
+            <p> <span> Father Income Certificate</span>
+              <span class="tags" ng-repeat="file in studentRecord.family.fatherIncomeCert" ng-if="(studentRecord.family.fatherIncomeCert.length > 0)"> 
+                  <a class="tag" ng-click="openAttachedFile('family', -1, 'fatherIncomeCert', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+                     </span>
+              <span ng-if="(studentRecord.family.fatherIncomeCert.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </p>
+          </li>
+          <li>
+            <p> <span> Father Designation</span>{{studentRecord.family.fatherDesignation}} </p>
+          </li>
+          <li>
+            <p> <span> Father Company</span>{{studentRecord.family.fatherCompanyName}} </p>
+          </li>
+          <li>
+            <p> <span> Father, Our College Alumni?</span>{{(studentRecord.family.fatherAlumni) ? "Yes" : "No"}} </p>
+          </li>
+          <li>
+            <p> <span> Guardian Name</span> {{studentRecord.family.guardianName | camelCase}}</p>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <ul class="labelvalue">
+          <li>
+            <p> <span> Mother Name</span> {{studentRecord.family.motherName | camelCase}}</p>
+          </li>
+          <li>
+            <p> <span> Mother Contact Number</span> {{studentRecord.family.motherContactNo}}</p>
+          </li>
+          <li>
+            <p> <span> Mother Email ID</span>{{studentRecord.family.motherEmailId}} </p>
+          </li>
+          <li>
+            <p> <span> Mother Education Qualification</span>{{studentRecord.family.motherEducationQualification}} </p>
+          </li>
+          <li ng-hide="studentRecord.family.motherOccupation == 'OTHERS'">
+            <p> <span> Mother Occupation</span>{{studentRecord.family.motherOccupation}} </p>
+          </li>
+          <li ng-show="studentRecord.family.motherOccupation == 'OTHERS'">
+            <p> <span> Mother Occupation</span>{{studentRecord.family.motherOccupationOther}} </p>
+          </li>
+          <li>
+            <p> <span> Mother Annual Income</span> {{studentRecord.family.motherIncome}}</p>
+          </li>
+          <li>
+            <p> <span> Mother Income Certificate</span>
+              <span class="tags" ng-repeat="file in studentRecord.family.motherIncomeCert" ng-if="(studentRecord.family.motherIncomeCert.length > 0)"> 
+                          <a class="tag" ng-click="openAttachedFile('family', -1, 'motherIncomeCert', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+                             </span>
+              <span ng-if="(studentRecord.family.motherIncomeCert.length == 0)">
+                        <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </p>
+          </li>
+          <li>
+            <p> <span> Mother Designation</span>{{studentRecord.family.motherDesignation}} </p>
+          </li>
+          <li>
+            <p> <span> Mother Company</span>{{studentRecord.family.motherCompanyName}} </p>
+          </li>
+          <li>
+            <p> <span> Mother, Our College Alumni?</span>{{(studentRecord.family.motherAlumni) ? "Yes" : "No"}} </p>
+          </li>
+          <li>
+            <p> <span> Guardian Contact Number</span> {{studentRecord.family.guardianContactNo}}</p>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--Start FamilyInfo Add/Edit Section-->
+  <div id="editFamilyInfo" ng-show="editable['family']">
+    <form name="familyInfo" id="familyInfo">
+      <div class="profile-sections-header-w">
+        <h5 class="profile-sections-header">Father's Details</h5>
+      </div>
+      <!--<div class="row">-->
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherName" class="required">Name</label>
+            <input id="fatherName" name="fatherName" placeholder="" ng-model="recordToUpdate.family.fatherName" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherNumber" class="required">Contact Number</label>
+            <input id="fatherNumber" name="fatherNumber" placeholder="" ng-model="recordToUpdate.family.fatherContactNo" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherEmailId">Email ID</label>
+            <input id="fatherEmailId" name="fatherEmailId" placeholder="" ng-model="recordToUpdate.family.fatherEmailId" class="form-control"
+              type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherEducationQualification">Education Qualification</label>
+            <select class="form-control" data-js-select2 data-placeholder="Select Qualification" id="fatherEducationQualification" name="fatherEducationQualification"
+              select-selection="recordToUpdate.family.fatherEducationQualification" select-options="qualification in parentEducationQualifications">
+                        <option value="" disabled selected></option>
+                    </select>
+          </div>
+        </div>
+        <div class="col-sm-4  form-group">
+          <div>
+            <label for="fatherOccupation">Occupation</label>
+            <select class="form-control" data-js-select2 data-placeholder="Select Occupation" id="fatherOccupation" name="fatherOccupation"
+              select-selection="recordToUpdate.family.fatherOccupation" select-options="occupation in occupations" select-others="true">
+                        <option value="" disabled selected></option>                        
+                </select>
+            <input id="fatherOccupationOther" name="fatherOccupationOther" placeholder="Please Specify" ng-model="recordToUpdate.family.fatherOccupationOther"
+              class="form-control" type="text" ng-show="recordToUpdate.family.fatherOccupation == 'OTHERS'" />
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherDesignation">Designation</label>
+            <input id="fatherDesignation" name="fatherDesignation" placeholder="" ng-model="recordToUpdate.family.fatherDesignation"
+              class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherWorkCompany">Name of Company</label>
+            <input id="fatherWorkCompany" name="fatherWorkCompany" placeholder="" ng-model="recordToUpdate.family.fatherCompanyName"
+              class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="fatherAnnualIncome">Annual Income (in INR)</label>
+            <input id="fatherAnnualIncome" name="fatherAnnualIncome" placeholder="" ng-model="recordToUpdate.family.fatherIncome" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div>
+            <label class="css-input css-checkbox css-checkbox-primary" for="fatherAlumni"> Is Father Our College Alumni? 
+                <input type="checkbox" id="fatherAlumni" ng-model="recordToUpdate.family.fatherAlumni">
+                  <span></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4" ng-if="editable['family']">
+          <label for="fatherIncomeCert">Father Income Certificate</label>
+          <span class="push-5-l" data-uib-popover="Only for the proof of income to avail Scholarships" data-popover-title="Notes" data-popover-trigger="'mouseenter'" data-popover-placement="right"><i class="icon-question4"></i></span>
+          <div ng-if="(recordToUpdate.family.fatherIncomeCert.length > 0)" class="tags" ng-repeat="file in recordToUpdate.family.fatherIncomeCert">
+            <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                      <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'fatherIncomeCert')"></i>
+                    </a>
+          </div>
+
+          <div ng-if="((recordToUpdate.family.fatherIncomeCert.length == 0) || (fatherIncomeCert['dupeMaxFiles'])) && notToggle" id="fatherIncomeCert"
+            ng-click="captureFieldName('fatherIncomeCert')" class="dropzone" options="fileAttachment['fatherIncomeCert'].dzOptions"
+            callbacks="fileAttachment['fatherIncomeCert'].dzCallbacks" methods="fileAttachment['fatherIncomeCert'].dzMethods"
+            ng-dropzone></div>
+        </div>
+      </div>
+      <!--</div>-->
+      <div class="profile-sections-header-w">
+        <h5 class="profile-sections-header">Mother's Details</h5>
+      </div>
+      <!--<div class="row">-->
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentMotherName" class="required">Name</label>
+            <input id="studentMotherName" name="studentMotherName" placeholder="" ng-model="recordToUpdate.family.motherName" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentMotherNumber">Contact Number</label>
+            <input id="studentMotherNumber" name="studentMotherNumber" placeholder="" ng-model="recordToUpdate.family.motherContactNo"
+              class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="motherEmailId">Email Id</label>
+            <input id="motherEmailId" name="motherEmailId" ng-model="recordToUpdate.family.motherEmailId" class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="motherEducationQualification">Education Qualification</label>
+            <select class="form-control" data-js-select2 data-placeholder="Select Qualification" id="motherEducationQualification" name="fatherEducationQualification"
+              select-selection="recordToUpdate.family.motherEducationQualification" select-options="qualification in parentEducationQualifications">
+                        <option value="" disabled selected></option>
+                </select>
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="motherOccupation">Occupation</label>
+            <select class="form-control" data-js-select2 data-placeholder="Select Occupation" id="motherOccupation" name="motherOccupation"
+              select-selection="recordToUpdate.family.motherOccupation" select-options="occupation in occupations" select-others="true">
+                        <option value="" disabled selected></option>
+                </select>
+
+            <input id="motherOccupationOther" name="motherOccupationOther" placeholder="Please Specify" ng-model="recordToUpdate.family.motherOccupationOther"
+              class="form-control" type="text" ng-show="recordToUpdate.family.motherOccupation == 'OTHERS'" />
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="motherDesignation">Designation</label>
+            <input id="motherDesignation" name="motherDesignation" placeholder="" ng-model="recordToUpdate.family.motherDesignation"
+              class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="motherCompanyName">Name of Company</label>
+            <input id="motherCompanyName" name="motherCompanyName" placeholder="" ng-model="recordToUpdate.family.motherCompanyName"
+              class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="motherIncome">Annual Income (in INR)</label>
+            <input id="motherIncome" name="motherIncome" ng-model="recordToUpdate.family.motherIncome" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div>
+            <label class="css-input css-checkbox css-checkbox-primary" for="motherAlumni"> Is Mother Our College Alumni? 
+                <input type="checkbox" id="motherAlumni" ng-model="recordToUpdate.family.motherAlumni">
+                  <span></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4" ng-if="editable['family']">
+          <label for="motherIncomeCert">Mother Income Certificate</label>
+          <span class="push-5-l" data-uib-popover="Only for the proof of income to avail Scholarships" data-popover-title="Notes" data-popover-trigger="'mouseenter'" data-popover-placement="right"><i class="icon-question4"></i></span>          
+          <div ng-if="(recordToUpdate.family.motherIncomeCert.length > 0)" class="tags" ng-repeat="file in recordToUpdate.family.motherIncomeCert">
+            <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                        <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'motherIncomeCert')"></i>
+                      </a>
+          </div>
+
+          <div ng-if="((recordToUpdate.family.motherIncomeCert.length == 0) || (motherIncomeCert['dupeMaxFiles'])) && notToggle" id="motherIncomeCert"
+            ng-click="captureFieldName('motherIncomeCert')" class="dropzone" options="fileAttachment['motherIncomeCert'].dzOptions"
+            callbacks="fileAttachment['motherIncomeCert'].dzCallbacks" methods="fileAttachment['motherIncomeCert'].dzMethods"
+            ng-dropzone></div>
+        </div>
+      </div>
+      <!--</div>-->
+      <div class="profile-sections-header-w">
+        <h5 class="profile-sections-header">Guardian's Details</h5>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="guardianName">Name</label>
+            <input id="guardianName" placeholder="" ng-model="recordToUpdate.family.guardianName" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="guardianContactNo">Contact Number</label>
+            <input id="guardianContactNo" name="guardianContactNo" ng-model="recordToUpdate.family.guardianContactNo" class="form-control"
+              type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group pull-right push-5-t">
+        <div class="col-sm-12">
+          <button class="btn btn-secondary m-r-10" ng-click="setEnvironmentForEditItem('family', false, -1, '#familyInfo')" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('family', '#familyInfo')" type="submit">Save Changes</button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </form>
+  </div>
+</div>

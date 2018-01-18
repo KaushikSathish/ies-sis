@@ -1,0 +1,123 @@
+<div class="profile-section">
+
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#clubsComplete" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Clubs</h5>
+    <a class="add-task-btn" data-target="#clubSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('clubs')">
+      <i class="icon-plus-circle2" href="javascript:void(0)"></i>
+      <span>Add Club</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewClubsInfo">
+    <div class="row jobs-item with-thumb">
+      <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['internship'] && (editableSectionIndex == $index))" ng-repeat="club in studentRecord.clubs">
+        <div class="pull-right">
+          <a ng-click="setEnvironmentDeleteOnConfirmation('clubs', club.itemIndex)" class="floating-hyperlink js-swal-confirm"
+            type="button" data-js-block-option>
+            <i class="icon-trash"></i>
+          </a>
+
+          <a data-target="#clubSectionItemModal" data-toggle="modal" class="floating-hyperlink" data-backdrop="static" data-keyboard="false"
+            ng-click="setEnvironmentForEditItem('clubs', true, club.itemIndex, 0)">
+            <i class="icon-pencil7"></i>
+          </a>
+        </div>
+        <h5 class="title" ng-hide="club.clubName == 'OTHERS'">{{club.clubName}}</h5>
+        <h5 class="title" ng-show="club.clubName == 'OTHERS'">{{club.clubNameOther}}</h5>
+        <ul class="list">
+          <li>{{club.clubRole}}</li>
+          <li>{{club.clubStartDate}} - {{club.clubEndDate}} </li>
+          <li> {{club.clubDescription}}</li>
+          <li>
+            <label>Appointment Letter:</label>
+            <span class="tags" ng-repeat="file in club.clubAppointmentLetter" ng-if="(club.clubAppointmentLetter.length > 0)">
+              <a class="tag" ng-click="openAttachedFile('clubs', club.itemIndex, 'clubAppointmentLetter', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+            </span>
+            <span ng-if="(club.clubAppointmentLetter.length == 0)">
+              <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="clubSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('clubs', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Clubs </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editClubsInfo" name="clubInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentClubName" class="required">Name</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Club" id="studentClubName" name="studentClubName" select-selection="recordToUpdate.clubs.clubName"
+                  select-options="club in clubs"  select-others="true" select-lookup-name="clubs" required select-others="true">
+                  <option value="" disabled selected></option>
+                </select>
+
+                <input id="studentClubNameOther" name="studentClubNameOther" placeholder="Please Specify" ng-model="recordToUpdate.clubs.clubNameOther"
+                  class="form-control" type="text" ng-show="recordToUpdate.clubs.clubName == 'OTHERS'" />
+
+              </div>
+              <div class="col-sm-4">
+                <label for="studentClubRole" class="required">Role</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Club Role" id="studentClubRole" name="studentClubRole"
+                  select-selection="recordToUpdate.clubs.clubRole" select-options="clubRole in roles" required>
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentClubDuration" class="required">Duration</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.clubs.clubStartDate" type="text"
+                      id="clubStartDate" name="startDate" data-date-end-date="0d" data-date-format="dd/M/yyyy" placeholder="From" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.clubs.clubEndDate" type="text"
+                      id="clubEndDate" name="endDate" data-date-format="dd/M/yyyy" placeholder="To" required>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentClubDesp">Description</label>
+                <textarea id="studentClubDesp" ng-model="recordToUpdate.clubs.clubDescription" class="form-control stdTextarea" type="text"></textarea>
+              </div>
+
+              <div class="col-sm-4" "editable['clubs']">
+                <label for="clubAppointmentLetter">Appointment Letter</label>
+                <div ng-if="(recordToUpdate.clubs.clubAppointmentLetter.length > 0)" class="tags" ng-repeat="file in recordToUpdate.clubs.clubAppointmentLetter">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'clubAppointmentLetter')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.clubs.clubAppointmentLetter.length == 0) || (clubAppointmentLetter['dupeMaxFiles'])) && notToggle"
+                  id="clubAppointmentLetter" ng-click="captureFieldName('clubAppointmentLetter')" class="dropzone" options="fileAttachment['clubAppointmentLetter'].dzOptions"
+                  callbacks="fileAttachment['clubAppointmentLetter'].dzCallbacks" methods="fileAttachment['clubAppointmentLetter'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('clubs', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('clubs', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

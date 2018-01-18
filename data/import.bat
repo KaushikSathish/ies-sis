@@ -1,0 +1,1 @@
+mongoimport -d ies-placement -c companies --type csv --file companiesMaster.csv --headerline

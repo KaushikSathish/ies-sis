@@ -1,0 +1,199 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewInternshipInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Internships</h5>
+    <a class="add-task-btn" data-target="#sectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('internship')">
+      <i class="icon-plus-circle2" href="javascript:void(0)"></i>
+      <span>Add Internship</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <!--Start Internships Add/Edit Section-->
+
+  <div id="viewInternshipInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="intern in studentRecord.internship" class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['internship'] && (editableSectionIndex == $index))">
+        <div class="pull-right">
+          <a ng-click="setEnvironmentDeleteOnConfirmation('internship', intern.itemIndex)" class="floating-hyperlink js-swal-confirm"
+            type="button" data-js-block-option>
+            <i class="icon-trash"></i>
+          </a>
+          <a data-backdrop="static" data-keyboard="false" data-target="#sectionItemModal" data-toggle="modal" class="floating-hyperlink" ng-click="setEnvironmentForEditItem('internship', true, intern.itemIndex, 0)">
+            <i class="icon-pencil7"></i>
+          </a>
+        </div>
+        <h5 class="title">{{intern.internDesignation}} </h5>
+        <h6>
+          <a href="javascript:void(0)" class="cursor-default"> {{intern.internCompanyName}} </a>
+        </h6>
+        <ul class="list">
+          <li> {{intern.internType}}</li>
+          <li> {{intern.internCity}}, {{intern.internCountry}} </li>
+          <li> {{intern.internStartDate}} - {{intern.internEndDate}} </li>
+          <li> Rs. {{intern.internStipend}}</li>
+          <li> {{intern.internGuideName}} - {{intern.internGuideDesignation}} </li>
+          <li> {{intern.internDescription}} </li>
+          <li>
+            <label>Offer Letter:</label>
+            <span class="tags" ng-repeat="file in intern.internOfferLetter" ng-if="(intern.internOfferLetter.length > 0)">
+              <a class="tag" ng-click="openAttachedFile('internship', intern.itemIndex, 'internOfferLetter', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+            </span>
+            <span ng-if="(intern.internOfferLetter.length == 0)">
+              <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+            </span>
+          </li>
+          <li>
+            <label>Completion Letter:</label>
+            <span class="tags" ng-repeat="file in intern.internCompletion" ng-if="(intern.internCompletion.length > 0)">
+              <a class="tag" ng-click="openAttachedFile('internship', intern.itemIndex, 'internCompletion', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+            </span>
+            <span ng-if="(intern.internCompletion.length == 0)">
+              <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="sectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-hidden="true" data-dismiss="modal" ng-click="edit('internship', false)">&times;</button>
+          <h4 class="modal-title">Internship </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editInternshipInfo" name="internshipInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentInternType" class="required">Internship Type</label>
+                <br/>
+                <select class="form-control" data-js-select2 select-options="it in internTypes" select-selection="recordToUpdate.internship.internType"
+                  id="studentInternType" name="studentInternType" data-placeholder="Please Select Internship Type" required>
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentInternName" class="required">Company Name</label>
+                <input id="studentInternName" name="studentInternName" ng-model="recordToUpdate.internship.internCompanyName" class="form-control"
+                  type="text" placeholder="Company Name" required>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentInternDesignation" class="required">Title/ Designation</label>
+                <input id="studentInternDesignation" name="studentInternDesignation" ng-model="recordToUpdate.internship.internDesignation"
+                  class="form-control" type="text" placeholder="Designation" required>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentInternDuration" class="required">Duration (DD/MM/YYYY)</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.internship.internStartDate"
+                      type="text" id="internStartDate" name="studentInternDurationStart" data-date-format="dd/M/yyyy"
+                      placeholder="From" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker type="text" datepicker-date="recordToUpdate.internship.internEndDate"
+                      id="internEndDate" name="studentInternDurationEnd" data-date-format="dd/M/yyyy" placeholder="To">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentInternCity">City</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select/Enter City" id="studentInternCity" name="studentInternCity"
+                  select-selection="recordToUpdate.internship.internCity" select-options="city in cities" select-add-item="true"
+                  select-add-callback="addNewItemToLookup" select-lookup-name="cities" required>
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentInternCountry">Country</label>
+                <select class="form-control" required data-js-select2 id="studentInternCountry" name="studentInternCountry" select-selection="recordToUpdate.internship.internCountry"
+                  data-placeholder="Select Country" select-options="nation in nationalities">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentInternStipend">Stipend (in INR)</label>
+                <input id="studentInternStipend" name="studentInternStipend" ng-model="recordToUpdate.internship.internStipend" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="industryGuideName">Industry Guide Name</label>
+                <input id="industryGuideName" name="industryGuideName" ng-model="recordToUpdate.internship.industryGuideName" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="industryGuideDesignation">Industry Guide Designation</label>
+                <input id="industryGuideDesignation" name="industryGuideDesignation" ng-model="recordToUpdate.internship.industryGuideDesignation"
+                  class="form-control" type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="instituteGuideName">Institute Guide Name</label>
+                <input id="instituteGuideName" name="instituteGuideName" ng-model="recordToUpdate.internship.instituteGuideName" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="instituteGuideDesignation">Institute Guide Designation</label>
+                <input id="instituteGuideDesignation" name="instituteGuideDesignation" ng-model="recordToUpdate.internship.instituteGuideDesignation"
+                  class="form-control" type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="studentInternSummary" class="required">Internship Summary</label>
+                <textarea id="studentInternSummary" ng-model="recordToUpdate.internship.internDescription" class="form-control stdTextarea"
+                  required></textarea>
+              </div>
+              <div class="col-sm-3" ng-if="editable['internship']">
+                <label for="internOfferLetter">Internship Offer Letter</label>
+                <div ng-if="(recordToUpdate.internship.internOfferLetter.length > 0)" class="tags" ng-repeat="file in recordToUpdate.internship.internOfferLetter">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'internOfferLetter')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.internship.internOfferLetter.length == 0) || (internOfferLetter['dupeMaxFiles'])) && notToggle"
+                  id="internOfferLetter" ng-click="captureFieldName('internOfferLetter')" class="dropzone" options="fileAttachment['internOfferLetter'].dzOptions"
+                  callbacks="fileAttachment['internOfferLetter'].dzCallbacks" methods="fileAttachment['internOfferLetter'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+              <div class="col-sm-3" ng-if="editable['internship']">
+                <label for="internCompletion">Internship Completion</label>
+                <div ng-if="(recordToUpdate.internship.internCompletion.length > 0)" class="tags" ng-repeat="file in recordToUpdate.internship.internCompletion">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'internCompletion')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.internship.internCompletion.length == 0) || (internCompletion['dupeMaxFiles'])) && notToggle"
+                  id="internCompletion" ng-click="captureFieldName('internCompletion')" class="dropzone" options="fileAttachment['internCompletion'].dzOptions"
+                  callbacks="fileAttachment['internCompletion'].dzCallbacks" methods="fileAttachment['internCompletion'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input class="btn btn-secondary m-r-10" ng-click="edit('internship', false)" data-dismiss="modal" type="button" value="Discard Changes"
+              />
+              <input class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('internship', 0)" data-dismiss="modal" type="button"
+                value="Save Changes" />
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--End Internships Add/Edit Section-->
+</div>

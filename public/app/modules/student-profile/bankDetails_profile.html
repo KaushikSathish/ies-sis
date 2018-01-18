@@ -1,0 +1,87 @@
+<div class="profile-section">
+        <!--START - profile-sections HEADER-->
+        <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewBankDetailsInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+          <h5 class="profile-sections-header">Bank Account Information</h5>
+          <a class="pull-right" ng-click="setEnvironmentForEditItem('BankDetails', true, -1, '#BankDetailsInfo')"><i class="icon-pencil7"></i></a>
+        </div>
+        <!--END - profile-sections HEADER-->
+        <div id="viewBankDetailsInfo" ng-hide="editable['BankDetails']" class="collapse in">
+          <div class="row">
+            <div class="col-sm-6">
+              <ul class="labelvalue">
+                <li>
+                  <p> <span>Account Name</span> {{studentRecord.BankDetails.accName}}</p>
+                </li>
+                <li>
+                  <p> <span>Account Number</span> {{studentRecord.BankDetails.bankAccNo}}</p>
+                </li>
+                <li>
+                  <p> <span>Account Type</span> {{studentRecord.BankDetails.bankAccType}}</p>
+                </li>
+      
+              </ul>
+            </div>
+            <div class="col-sm-6">
+              <ul class="labelvalue">
+                  <li>
+                      <p> <span>Name of the Bank</span> {{studentRecord.BankDetails.bankName}}</p>
+                    </li>
+                <li>
+                  <p> <span>Bank IFSC Code</span> {{studentRecord.BankDetails.bankIfscCode}}</p>
+                </li>
+                <li>
+                  <p> <span>Bank Branch</span> {{studentRecord.BankDetails.bankBranch}}</p>
+                </li>               
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--Start BankDetails Info Add/Edit Section-->
+        <div id="editBankDetailsInfo" ng-show="editable['BankDetails']">
+          <form name="BankDetailsInfo" id="BankDetailsInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                  <label for="accName" class="required">Account Name</label>
+                  <input id="accName" name="accName" ng-model="recordToUpdate.BankDetails.accName" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                  <label for="bankAccNo" class="required">Account Number</label>
+                  <input id="bankAccNo"  name="bankAccNo" ng-model="recordToUpdate.BankDetails.bankAccNo" class="form-control"
+                    type="text">
+              </div>
+              <div class="col-sm-4">
+                  <label for="bankAccType " class="required">Account Type</label>
+                  <select id="bankAccType" name="bankAccType" class="form-control" data-js-select2 select-selection="recordToUpdate.BankDetails.bankAccType"
+                  data-placeholder="Please Select Account Type" select-options="accType in bankAccType">
+                        <option value="" disabled selected></option>                   
+                      </select>
+              </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4">
+                    <label for="bankName" class="required">Name of the Bank </label>
+                    <input id="bankName" name="bankName" ng-model="recordToUpdate.BankDetails.bankName" class="form-control"
+                      type="text">
+                  </div>
+              <div class="col-sm-4">
+                  <label for="bankIfscCode" class="required">IFSC Code </label>
+                  <input id="bankIfscCode" name="bankIfscCode" ng-model="recordToUpdate.BankDetails.bankIfscCode" class="form-control"
+                    type="text">
+                </div>
+              <div class="col-sm-4">
+                  <label for="bankBranch" class="required">Bank Branch</label>
+                  <input id="bankBranch" name="bankBranch" ng-model="recordToUpdate.BankDetails.bankBranch" class="form-control"
+                    type="text">
+                </div>               
+              </div>
+           
+            <div class="row form-group pull-right">
+              <div class="col-sm-12">
+                <button class="btn btn-secondary m-r-10" ng-click="setEnvironmentForEditItem('BankDetails', false, -1, '#BankDetailsInfo')" type="submit">Discard Changes</button>
+                <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('BankDetails', 0)" type="submit">Save Changes</button>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>

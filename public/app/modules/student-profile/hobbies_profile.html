@@ -1,0 +1,42 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler"  data-toggle="collapse" data-target="#viewhobbiesInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Hobbies</h5>
+    <a class="pull-right" ng-show="studentRecord.hobbies" ng-click="edit('hobbies', true)">
+      <i class="icon-pencil7"></i></a>
+      <a class="add-task-btn" 
+      ng-show="!studentRecord.hobbies" ng-click="edit('hobbies', true)">
+          <i class="icon-plus-circle2" href="javascript:void(0)"></i>
+          <span>Add Hobbies</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewhobbiesInfo" ng-hide="editable['hobbies']" class="collapse in">
+    <div class="row padded-b">
+      <div class="col-sm-12">
+        <span class="badge badge-modern badge-lg push-5-r" ng-repeat="hobby in studentRecord.hobbies"> {{hobby}} </span>
+      </div>
+    </div>
+  </div>
+  <form id="edithobbiesInfo" ng-show="editable['hobbies']" name="hobbiesInfo">
+    <div class="row form-group">
+      <label class="col-md-4 control-label" for="example-select2-multiple">Hobbies</label>
+      <div class="col-md-8">
+        <select data-js-select2 class="form-control" select-selection="recordToUpdate.hobbies" data-placeholder="Choose/Enter your hobbies"
+          multiple select-options="hobby in hobbies" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="hobbies">
+          <option value="" disabled></option>
+        </select>
+      </div>
+    </div>
+    <div class="row form-group pull-right">
+      <div class="col-sm-12">
+        <button class="btn btn-secondary m-r-10" ng-click="edit('hobbies', false)" type="submit">Discard Changes</button>
+        <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('hobbies', 0)" type="submit">Save Changes</button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </form>
+</div>

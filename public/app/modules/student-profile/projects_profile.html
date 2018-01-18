@@ -1,0 +1,154 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewProjectsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Projects</h5>
+    <a class="add-task-btn" data-target="#projectSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+      ng-click="setEnvironmentAddSectionItem('projects')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Project </span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewProjectsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="proj in studentRecord.projects">
+        <div class="col-sm-6 padded-b  padded-t b-b b-r" ng-hide="(editable['projects'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('projects', proj.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#projectSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('projects', true, proj.itemIndex, 0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{proj.projectName}} </h5>
+          <ul class="list">
+            <li>{{proj.projectType}}</li>
+            <li> {{proj.projectGuidance}}, {{proj.institutionName}} - {{proj.location}} </li>
+            <li> {{proj.projectStartDate}} - {{proj.projectEndDate}}</li>
+            <li> {{proj.projectDescription}} </li>
+            <li>
+              <label>Completion Certificate:</label>
+              <span class="tags" ng-repeat="file in proj.projectCompletionCert" ng-if="(proj.projectCompletionCert.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('projects', proj.itemIndex, 'projectCompletionCert', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(proj.projectCompletionCert.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Start Projects Add/Edit Section-->
+
+  <div id="projectSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('projects', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"> Add/ Edit Project</h4>
+        </div>
+        <div class="modal-body">
+          <form name="projectInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentProjName" class="required">Project Name/Title</label>
+                <input id="studentProjName" name="studentProjName" ng-model="recordToUpdate.projects.projectName" class="form-control" type="text"
+                  required>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentProjType" class="required">Project Type</label>
+                <select class="form-control" data-js-select2 id="studentProjType" name="studentProjType" select-options="p in projectTypes"
+                  select-selection="recordToUpdate.projects.projectType" required>
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentProjGuidance" class="required">Agency/Sponsor/Guide Name</label>
+                <input id="studentProjGuidance" name="studentProjGuidance" ng-model="recordToUpdate.projects.projectGuidance" class="form-control"
+                  type="text" required>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentProjDuration" class="required">Duration (DD/MM/YYYY)</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input class="form-control" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.projects.projectStartDate" type="text" id="projectStartDate"
+                      data-date-format="dd/M/yyyy" placeholder="From" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.projects.projectEndDate"
+                      type="text" id="projectEndDate" data-date-format="dd/M/yyyy" placeholder="To">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <label for="studentProjLocation" class="required">Project For</label>
+                <select class="form-control" data-js-select2 id="studentProjLocation" name="studentProjLocation" select-options="l in locationTypes"
+                select-default="External/ Industry"  select-selection="recordToUpdate.projects.projectLocation" required>
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4" ng-if="recordToUpdate.projects.projectLocation == 'External/ Industry'">
+                <label for="studentProjInstitutionName">Institution/ Organization Name</label>
+                <input id="studentProjInstitutionName" name="studentProjInstitutionName" ng-model="recordToUpdate.projects.institutionName"
+                  class="form-control" type="text">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="location" class="required">Location</label>
+                <select data-js-select2 class="form-control" select-selection="recordToUpdate.projects.location" data-placeholder="Select City"
+                select-options="city in cities" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities">
+                <option value="" disabled></option>
+              </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="teamSize" class="required">Team Size</label>
+                <input id="teamSize" name="teamSize" ng-model="recordToUpdate.projects.teamSize" class="form-control" type="text">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="studentProjDesc" class="required">Project Description</label>
+                <textarea id="studentProjDesc" ng-model="recordToUpdate.projects.projectDescription" class="form-control stdTextarea" required></textarea>
+              </div>
+              <div class="col-sm-4" ng-if="editable['projects']">
+                <label for="projectCompletionCert">Project Completion Certificate</label>
+                <div ng-if="(recordToUpdate.projects.projectCompletionCert.length > 0)" class="tags" ng-repeat="file in recordToUpdate.projects.projectCompletionCert">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'projectCompletionCert')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.projects.projectCompletionCert.length == 0) || (projectCompletionCert['dupeMaxFiles'])) && notToggle"
+                  id="projectCompletionCert" ng-click="captureFieldName('projectCompletionCert')" class="dropzone" options="fileAttachment['projectCompletionCert'].dzOptions"
+                  callbacks="fileAttachment['projectCompletionCert'].dzCallbacks" methods="fileAttachment['projectCompletionCert'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('projects', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('projects', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

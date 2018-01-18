@@ -1,0 +1,139 @@
+<div class="profile-section">
+    <!--START - profile-sections HEADER-->
+    <div class="profile-sections-header-w">
+        <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewHigherEducationInfo" href="javascript:void(0)">
+            <i class="icon-menu-open"></i>
+        </a>
+        <h5 class="profile-sections-header">Higher Education</h5>
+        <a class="add-task-btn" data-target="#higherEducationSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+            ng-click="setEnvironmentAddSectionItem('higherEducation')">
+            <i class="icon-plus-circle2"></i>
+            <span>Add Education</span>
+        </a>
+    </div>
+    <!--END - profile-sections HEADER-->
+    <div id="viewHigherEducationInfo" class="collapse in">
+        <div class="row jobs-item with-thumb">
+            <div ng-repeat="edu in studentRecord.higherEducation">
+                <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['higherEducation'] && (editableSectionIndex == $index))">
+                    <div class="pull-right">
+                        <a ng-click="setEnvironmentDeleteOnConfirmation('higherEducation', edu.itemIndex)" class="floating-hyperlink js-swal-confirm"
+                            type="button" data-js-block-option>
+                            <i class="icon-trash"></i>
+                        </a>
+                        <a data-target="#higherEducationSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+                            ng-click="setEnvironmentForEditItem('higherEducation', true, edu.itemIndex, 0)">
+                            <i class="icon-pencil7"></i>
+                        </a>
+                    </div>
+                    <h5 class="title">{{edu.program}}, {{edu.specialization}} </h5>
+                    <h6><a href="javascript:void(0)" class="cursor-default">{{edu.institutionName}}</a></h6>
+                    <ul class="list">
+                        <li> {{edu.location}}, {{edu.country}} </li>
+                        <li> <label>Duration: </label> {{edu.duration}} months</li>
+                        <li> <label>DOJ: </label>{{edu.joiningDate}} </li>
+                        <li ng-if="(edu.pocName || edu.pocEmail)"> {{edu.pocName}}, {{edu.pocEmail}}</li>
+                        <li>
+                            <label>Reffered By: </label>
+                            {{edu.facultyName}}, {{edu.facultyDesignation}}, {{edu.facultyDepartment}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Start Work Experience Add/Edit Section-->
+    <div id="higherEducationSectionItemModal" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="edit('higherEducation', false)" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add/ Edit Higher Education </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editHigherEducationInfo" ng-show="editable['higherEducation']" name="higherEducation">
+                        <div class="row form-group">
+                            <div class="col-sm-4">
+                                <label for="higherEduProgramName" class="required">Program</label>
+                                <input id="higherEduProgramName" ng-model="recordToUpdate.higherEducation.program" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="higherEducationSpecialization" class="required">Specialization</label>
+                                <input id="higherEducationSpecialization" ng-model="recordToUpdate.higherEducation.specialization" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="higherEducationUniversityName" class="required">University/ College Name</label>
+                                <input id="higherEducationUniversityName" ng-model="recordToUpdate.higherEducation.institutionName" class="form-control"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <label for="higherEducationJoining">Month, Year of Joining</label>
+                                <input id="higherEducationJoining" class="form-control" data-js-datepicker type="text" datepicker-date="recordToUpdate.higherEducation.joiningDate"
+                                    data-date-format="dd/M/yyyy" />
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="higherEducationDuration" class="required">Duration (In months)</label>
+                                <input id="higherEducationDuration" class="form-control" type="number" ng-model="recordToUpdate.higherEducation.duration">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="universityPocName">University POC Name</label>
+                                <input id="universityPocName" ng-model="recordToUpdate.higherEducation.pocName" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="universityPocEmail">University POC Email</label>
+                                <input id="universityPocEmail" ng-model="recordToUpdate.higherEducation.pocEmail" class="form-control" type="email">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-4">
+                                <label for="higherEducationUniversityLocation">Location/ City</label>
+                                <select data-js-select2 class="form-control" select-selection="recordToUpdate.higherEducation.location" data-placeholder="Select City"
+                                select-options="city in cities" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities">
+                                <option value="" disabled></option>
+                              </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="higherEducationUniversityCountry">Country</label>
+                                <select class="form-control" required data-js-select2 id="higherEducationUniversityCountry" name="higherEducationUniversityCountry"
+                                    select-selection="recordToUpdate.higherEducation.country" data-placeholder="Select Country"
+                                    select-options="nation in nationalities">
+                                    <option value="" disabled selected></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="higherEducationUniversityWebsite">University Website Url</label>
+                                <input id="higherEducationUniversityWebsite" ng-model="recordToUpdate.higherEducation.website" class="form-control" type="url">
+                            </div>
+
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-4">
+                                <label for="higherEducationRefferedByName">Reffered By Faculty Name</label>
+                                <input id="higherEducationRefferedByName" ng-model="recordToUpdate.higherEducation.facultyName" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="higherEducationRefferedByDesignation">Faculty Designation</label>
+                                <input id="higherEducationRefferedByDesignation" ng-model="recordToUpdate.higherEducation.facultyDesignation" class="form-control"
+                                    type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="higherEducationRefferedByDepartment">Faculty Department</label>
+                                <input id="higherEducationRefferedByDepartment" ng-model="recordToUpdate.higherEducation.facultyDepartment" class="form-control"
+                                    type="text">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary m-r-10" ng-click="edit('higherEducation', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+                    <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('higherEducation', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+    <!--End Work Education Add/Edit Section-->
+</div>

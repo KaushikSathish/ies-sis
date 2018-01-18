@@ -1,0 +1,172 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewEventsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Events</h5>
+    <a class="add-task-btn" data-target="#eventSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('events')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Event</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewEventsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="event in studentRecord.events">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['events'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('events', event.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#eventSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('events', true, event.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{event.eventName}} </h5>
+          <ul class="list">
+            <li>{{event.eventCategory}}, {{event.eventType}} Event</li>
+            <li> {{event.eventRole}}
+              <span ng-if="event.eventRole == 'Prize Winner'">{{event.eventPrize}}</span>
+            </li>
+            <li> {{event.eventOrgName}} </li>
+            <li> {{event.eventStartDate}} - {{event.eventEndDate}}</li>
+            <li>{{event.eventDescription}} </li>
+            <li>
+              <label>Event Organizer Certificate:</label>
+              <span class="tags" ng-repeat="file in event.eventCertificate" ng-if="(event.eventCertificate.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('events', event.itemIndex, 'eventCertificate', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(event.eventCertificate.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="eventSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('events', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"> Add/ Edit Events </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editEventsInfo" name="eventInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentEventsName" class="required">Event Title </label>
+                <input id="studentEventsName" required ng-model="recordToUpdate.events.eventName" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="eventCurriculum" class="required">Event Curriculum Type</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Event Curriculum Type" id="eventCurriculum"
+                  name="eventCategory" select-default="Co-Curicular" select-selection="recordToUpdate.events.eventCurriculum"
+                  select-options="curriculum in eventCurriculum">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="eventCategory" class="required">Event Category</label>
+                <select class="form-control" ng-if="recordToUpdate.events.eventCurriculum=='Co-Curicular'" required data-js-select2 data-placeholder="Select Event Category"
+                  id="eventCategory" name="eventCategory" select-selection="recordToUpdate.events.eventCategory" select-options="category in coCurriculumCategory" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="coCurriculumCategory">
+                  <option value="" disabled selected></option>
+                </select>
+                <select class="form-control" ng-if="recordToUpdate.events.eventCurriculum=='Extra-Curicular'" required data-js-select2 data-placeholder="Select Event Category"
+                  id="eventCategory" name="eventCategory" select-selection="recordToUpdate.events.eventCategory" select-options="category in extraCurriculumCategory"  select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="extraCurriculumCategory">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+
+
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="eventType">Event Level</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Event Level" id="eventType" name="eventType" select-selection="recordToUpdate.events.eventType"
+                  select-options="Type in eventTypes">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+
+              <div class="col-sm-4">
+                <label for="studentEventDate" class="required">Duration</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-date-end-date="0d" required data-js-datepicker datepicker-date="recordToUpdate.events.eventStartDate"
+                      type="text" id="eventStartDate" name="studentEventStartDate" data-date-format="dd/M/yyyy" placeholder="From">
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.events.eventEndDate" type="text"
+                      id="eventEndDate" name="studentEventEndDate" data-date-format="dd/M/yyyy" placeholder="To">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentEventRole" class="required">Event Role</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Event Role" id="studentEventRole" name="studentEventRole"
+                  select-selection="recordToUpdate.events.eventRole" select-options="eventRole in eventRoles">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="organizingBody" class="required">Organizing Body</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Organizing Body " id="organizingBody" name="organizingBody"
+                  select-selection="recordToUpdate.events.organizingBody" select-options="organizingB in organizingBody">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="eventOrgName" class="required">Name of the Organization</label>
+                <select class="form-control" required data-js-select2 ng-if="recordToUpdate.events.organizingBody=='CLUBS'" data-placeholder="Select the Club"
+                  id="eventOrgName" name="eventOrgName" select-selection="recordToUpdate.events.eventOrgName" select-options="eventOrgName in clubs">
+                  <option value="" disabled selected></option>
+                </select>
+                <select class="form-control" data-js-select2 ng-if="recordToUpdate.events.organizingBody=='ASSOCIATIONS'" data-placeholder="Select the Association"
+                  id="eventOrgName" name="eventOrgName" select-selection="recordToUpdate.events.eventOrgName" select-options="eventOrgName in associations">
+                  <option value="" disabled selected></option>
+                </select>
+                <input ng-init="recordToUpdate.events.eventOrgName = ''" id="eventOrgName" ng-if="recordToUpdate.events.organizingBody !='CLUBS'&& recordToUpdate.events.organizingBody !='ASSOCIATIONS'"
+                  ng-model="recordToUpdate.events.eventOrgName" class="form-control" type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentEventdesp">Description</label>
+                <textarea id="studentEventdesp" ng-model="recordToUpdate.events.eventDescription" class="form-control stdTextarea" type="text"></textarea>
+              </div>
+              <div class="col-sm-4" "editable['events']">
+                <label for="eventCertificate">Event Organizer Certificate</label>
+                <div ng-if="(recordToUpdate.events.eventCertificate.length > 0)" class="tags" ng-repeat="file in recordToUpdate.events.eventCertificate">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'eventCertificate')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.events.eventCertificate.length == 0) || (eventCertificate['dupeMaxFiles'])) && notToggle" id="eventCertificate"
+                  ng-click="captureFieldName('eventCertificate')" class="dropzone" options="fileAttachment['eventCertificate'].dzOptions"
+                  callbacks="fileAttachment['eventCertificate'].dzCallbacks" methods="fileAttachment['eventCertificate'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('events', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('events', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

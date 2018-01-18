@@ -1,0 +1,101 @@
+<div>
+  <ul class="breadcrumb">
+    <li>Home</li>
+    <li><a class="link-effect" href="">Students Management</a></li>
+  </ul>
+  <!-- END Page Header -->
+
+  <!-- Page Content -->
+  <div class="content">
+    <div class="element-wrapper">
+      <!--<div class="element-actions"><a class="btn btn-primary btn-sm" href="#"><i class="os-icon os-icon-ui-22"></i><span>Add Student</span></a></div>-->
+      <h4 class="element-header">Students Management</h4>
+
+    </div>
+    <div class="block">     
+      <div class="tablesearch_heading">
+
+        <a data-toggle="collapse" ng-click="toggleArrowIcon()" href="#search" aria-expanded="false" aria-controls="search" class="floating_expand_collapse"><i id="arrow_inSearch" class="icon-chevron-down"></i>Search</a>
+
+        <div class="clearfix"></div>
+      </div>
+      <div class="tablesearch collapse in" id="search">
+
+        <div class="row">
+          <div class="col-sm-12 col-md-2">
+            <div class="form-group">
+              <label for="deptName">Program</label><br>
+
+              <select data-js-select2 select-selection="searchParams.program" class="form-control" id="program" name="program" select-options="programName in programsNames"
+                data-placeholder="Please Select Program">
+                        <option value="" disabled selected></option>                    
+                </select>
+            </div>
+
+          </div>
+          <div class="col-sm-12 col-md-3">
+            <div class="form-group">
+              <label for="departmentName">Department</label><br>
+
+              <select data-js-select2 class="form-control" select-selection="searchParams.departments" id="departmentName" name="departmentName" style="width: 100%"
+                data-placeholder="Please Select Department" select-options="department in departments" multiple>                                                    
+                                  </select>
+            </div>
+
+          </div>
+          <div class="col-sm-12 col-md-2">
+            <div class="form-group">
+              <label for="semesterNum">Semester</label><br>
+              <select data-js-select2 class="form-control" select-selection="searchParams.currentSem" select-options="n in semesters" id="semesterNum" style="width: 100%"
+                name="semesterNum" data-placeholder="Semester">
+                                    <option value="" disabled selected></option>                    
+                                  </select>
+            </div>
+
+          </div>
+          <div class="col-sm-12 col-md-3">
+            <label for="studentName">Name</label><br>
+            <input class="form-control" ng-model="searchParams.studentName" id="studentName" name="studentName" data-placeholder="Please specify name"
+            />
+          </div>
+          <div class="col-sm-12 col-md-2">
+            <label for="rollNumber">Roll Number</label><br>
+            <input class="form-control" ng-model="searchParams.rollNumber" id="rollNumber" name="rollNumber" data-placeholder="Please specify rollNumber"
+            />
+          </div>
+
+
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-12">
+            <button class="btn btn-primary" ng-click="getStudentsOnSearchParams()" type="submit"><i class="icon-search4 push-10-r"></i>Search</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="push-20"></div>
+
+      <div class="block-content">
+        <div style="width: 100%;">
+          <div ng-show="showLoader" class="cover-center">
+            <div class="center-inner">
+              <i class="fa fa-2x fa-sun-o fa-spin"></i>
+            </div>
+          </div>
+          <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/controllers.js -> TablesDatatablesCtrl Controller-->
+          <table class="table table-striped table-hover standard-table js-dataTable-full" ng-show="!showLoader">
+            <thead>
+              <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Program</th>
+                <th>Branch Name</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

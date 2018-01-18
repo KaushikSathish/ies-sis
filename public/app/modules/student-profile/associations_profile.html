@@ -1,0 +1,131 @@
+<div class="profile-section">
+
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewAssociationsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Associations</h5>
+    <a class="add-task-btn" data-target="#associationSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('associations')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Association</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewAssociationsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="association in studentRecord.associations">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['internship'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('associations', association.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#associationSectionItemModal" data-toggle="modal" class="floating-hyperlink" data-backdrop="static"
+              data-keyboard="false" ng-click="setEnvironmentForEditItem('associations', true, association.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title" ng-hide="association.associationName == 'OTHERS'">{{association.associationName}}</h5>
+          <h5 class="title" ng-show="association.associationName == 'OTHERS'">{{association.associationNameOther}}</h5>
+          <ul class="list">
+            <li>{{association.associationRole}} </li>
+            <li>{{association.associationStartDate}} - {{association.associationEndDate}} </li>
+            <li> {{association.associationDescription}} </li>
+            <li>
+              <label>Appointment Letter:</label>
+              <span class="tags" ng-repeat="file in association.associationAppointmentLetter" ng-if="(association.associationAppointmentLetter.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('associations', association.itemIndex, 'associationAppointmentLetter', file.originalname)"
+                  href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(association.associationAppointmentLetter.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="associationSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('associations', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Association </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editAssociationsInfo" name="associationsInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentAssociationName" class="required">Name</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select association" id="studentAssociationName" name="studentAssociationName"
+                  select-selection="recordToUpdate.associations.associationName" select-options="association in associations"
+                  select-others="true" required>
+                  <option value="" disabled selected></option>
+                </select>
+
+                <input id="studentAssociationOther" name="studentAssociationOther" placeholder="Please Specify" ng-model="recordToUpdate.associations.associationNameOther"
+                  class="form-control" type="text" ng-show="recordToUpdate.associations.associationName == 'OTHERS'" />
+
+              </div>
+              <div class="col-sm-4">
+                <label for="studentAssociationRole" class="required">Role</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Association Role" id="studentAssociationRole" name="studentAssociationRole"
+                  select-selection="recordToUpdate.associations.associationRole" select-options="associationRole in roles"
+                  required>
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentAssociationDuration" class="required">Duration</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.associations.associationStartDate"
+                      type="text" id="associationStartDate" name="AssociationStartDate" data-date-format="dd/M/yyyy" placeholder="From"
+                      required>
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.associations.associationEndDate"
+                      type="text" id="associationEndDate" name="AssociationEndDate" data-date-format="dd/M/yyyy" placeholder="To"
+                      required>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentAssociationDesp">Description</label>
+                <textarea id="studentAssociationDesp" ng-model="recordToUpdate.associations.associationDescription" class="form-control stdTextarea"
+                  type="text"></textarea>
+              </div>
+
+              <div class="col-sm-4" "editable['associations']">
+                <label for="associationAppointmentLetter">Association Offer Letter</label>
+                <div ng-if="(recordToUpdate.associations.associationAppointmentLetter.length > 0)" class="tags" ng-repeat="file in recordToUpdate.associations.associationAppointmentLetter">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'associationAppointmentLetter')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.associations.associationAppointmentLetter.length == 0) || (associationAppointmentLetter['dupeMaxFiles'])) && notToggle"
+                  id="associationAppointmentLetter" ng-click="captureFieldName('associationAppointmentLetter')" class="dropzone"
+                  options="fileAttachment['associationAppointmentLetter'].dzOptions" callbacks="fileAttachment['associationAppointmentLetter'].dzCallbacks"
+                  methods="fileAttachment['associationAppointmentLetter'].dzMethods" ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('associations', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('associations', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,364 @@
+<div class="profile-section">
+    <!--START - profile-sections HEADER-->
+    <div class="profile-sections-header-w">
+        <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewBasicInfo" href="javascript:void(0)">
+            <i class="icon-menu-open"></i>
+        </a>
+        <h5 class="profile-sections-header">Basic Information</h5>
+        <a class="pull-right" ng-click="setEnvironmentForEditItem('basic', true, -1, '#basicInfo')">
+            <i class="icon-pencil7"></i>
+        </a>
+    </div>
+    <!--END - profile-sections HEADER-->
+    <div id="viewBasicInfo" ng-hide="editable['basic']" class="collapse in">
+        <div class="row">
+            <div class="col-sm-6">
+                <ul class="labelvalue">
+                    <li>
+                        <p>
+                            <span> First Name</span>{{studentRecord.basic.firstName | camelCase}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Middle Name</span>{{studentRecord.basic.middleName | camelCase}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Last Name</span>{{studentRecord.basic.lastName | camelCase}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Gender</span>{{studentRecord.basic.gender}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Date of Birth</span> {{studentRecord.basic.dobStr}} </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Age</span>{{studentRecord.basic.age}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Place of Birth</span> {{studentRecord.basic.placeOfBirth}} </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Native State</span> {{studentRecord.basic.state}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Nationality</span> {{studentRecord.basic.nationality}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <ul class="labelvalue">
+                    <li>
+                        <p>
+                            <span> Religion</span> {{studentRecord.basic.religion}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Community</span> {{studentRecord.basic.community}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Caste (as in Community Certiicate)</span> {{studentRecord.basic.caste}}</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span> Mother Tongue</span> {{studentRecord.basic.motherTongue}}</p>
+                    </li>
+                    <!--<li>
+                        <p> <span> Married</span>
+                            <span ng-if="studentRecord.basic.isMarried">Yes                                
+                                </span>
+                            <span ng-if="!studentRecord.basic.isMarried">No</span>
+                        </p>
+                    </li>-->
+                    <li>
+                        <p>
+                            <span> Hosteler</span>
+                            <span ng-if="studentRecord.basic.isHosteler">Yes
+                            </span>
+                            <span ng-if="!studentRecord.basic.isHosteler">No</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p ng-if="studentRecord.basic.isHosteler">
+                            <span>Hostel Name</span> {{studentRecord.basic.hostelBlockName | camelCase}}</p>
+                    </li>
+                    <li>
+                        <p ng-if="studentRecord.basic.isHosteler">
+                            <span>Hostel Room Number</span> {{studentRecord.basic.hostelRoomNumber}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--Start BasicInfo Add/Edit Section-->
+
+    <div id="editBasicInfo" ng-show="editable['basic']">
+        <form id="basicInfo" name="basicInfo">
+            <div class="row">
+                <div class="col-sm-4 displayFieldOneCol  form-group" tabindex="1">
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" name="firstName" placeholder="First Name" ng-model="recordToUpdate.basic.firstName" class="form-control"
+                        type="text">
+                </div>
+                <div class="col-sm-4 displayFieldOneCol  form-group" tabindex="2">
+                    <label for="middleName">Middle Name</label>
+                    <input id="middleName" name="middleName" placeholder="Middle Name" ng-model="recordToUpdate.basic.middleName" class="form-control"
+                        type="text">
+                </div>
+                <div class="col-sm-4 displayFieldOneCol form-group" tabindex="3">
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" placeholder="Last Name" ng-model="recordToUpdate.basic.lastName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="sex" class="required">Gender</label>
+                        <br/>
+                        <label class="css-input css-radio css-radio-primary m-r-20" for="genderMale">
+                            <input name="sex" id="genderMale" value="Male" ng-model="recordToUpdate.basic.gender" type="radio" />
+                            <span></span> Male </label>
+                        <label class="css-input css-radio css-radio-primary m-r-20" for="genderFemale">
+                            <input name="sex" id="genderFemale" value="Female" ng-model="recordToUpdate.basic.gender" type="radio" />
+                            <span></span>Female </label>
+                        <label class="css-input css-radio css-radio-primary" for="genderOther">
+                            <input name="sex" id="genderOther" value="Others" ng-model="recordToUpdate.basic.gender" type="radio" />
+                            <span></span>Others</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentDOB" class="required">Date of Birth (DD/MMM/YYYY)</label>
+                        <input class="form-control custom-datepicker" data-js-datepicker type="text" placeholder="Ex: 13/Dec/2017" id="studentDOB"
+                            data-date-end-date="0d" name="studentDOB" data-date-format="dd/M/yyyy" datepicker-date="recordToUpdate.basic.dobStr"
+                        />
+                    </div>
+                </div>
+
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentAge">Age</label>
+                        <input id="studentAge" ng-model="recordToUpdate.basic.age" class="form-control" type="text" readonly/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="placeOfBirth" class="required">Place of Birth</label>
+                        <input id="placeOfBirth" name="placeOfBirth" ng-model="recordToUpdate.basic.placeOfBirth" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentNationality" class="required">Nationality</label>
+                        <select class="form-control" data-js-select2 data-placeholder="Select Nationality" id="studentNationality" name="studentNationality"
+                            select-selection="recordToUpdate.basic.nationality" select-options="nation in nationalities">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group" ng-if="recordToUpdate.basic.nationality =='INDIA'">
+                    <div>
+                        <label for="studentState" class="required">Native State (Birth State)</label>
+                        <select class="form-control" data-js-select2 data-placeholder="Select a State" id="studentState" name="studentState" select-selection="recordToUpdate.basic.state"
+                            select-options="state in indianStates">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group" ng-if="recordToUpdate.basic.nationality !='INDIA'">
+                    <div>
+                        <label for="studentState" class="required">Native State (Birth State)</label>
+                        <input id="studentState" name="studentState" placeholder="Enter state name" ng-model="recordToUpdate.basic.state" class="form-control"
+                            type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentReligion" class="required">Religion</label>
+                        <select class="form-control" data-js-select2 data-placeholder="Select Religion" id="studentReligion" name="studentReligion"
+                            select-options="religion in religions" select-selection="recordToUpdate.basic.religion">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentCommunity">Community</label>
+                        <select class="form-control" data-js-select2 data-placeholder="Select a Community" id="studentCommunity" name="studentCommunity"
+                            select-selection="recordToUpdate.basic.community" select-options="community in communities">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentCaste">Caste (as in Community Certiicate)</label>
+                        <select class="form-control custom-select2" data-js-select2 data-placeholder="Select a Caste" id="studentCaste" name="studentCaste"
+                            select-selection="recordToUpdate.basic.caste" select-options="caste in castes">
+                            <option value="" disabled selected></option>
+                            <!-- <option ng-value="0">Others</option> -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentMotherTongue" class="required">Mother Tongue</label>
+                        <select class="form-control custom-select2" data-js-select2 data-placeholder="Select your Mother tongue" id="studentMotherTongue"
+                            name="studentMotherTongue" select-selection="recordToUpdate.basic.motherTongue" select-options="motherTongue in motherTongues"
+                            select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="motherTongues">
+                            <option value="" disabled selected></option>
+                            <!-- <option ng-value="0">Others</option> -->
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentMarried">Married?</label>
+                        <br/>
+                        <label class="css-input css-radio css-radio-primary m-r-20" for="Married">
+                        <input id="Married" type="radio" name="studentMarried" ng-value= "true" ng-model="recordToUpdate.basic.isMarried">
+                           <span></span> Yes </label>
+                        <label class="css-input css-radio css-radio-primary" for="NotMarried">
+                        <input id="NotMarried"   name="studentMarried" ng-value="false" ng-model="recordToUpdate.basic.isMarried" type="radio">
+                          <span></span> No </label>
+                    </div>
+                </div>-->
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="studentHosteler" class="required">Hosteler?</label>
+                        <br>
+                        <label class="css-input css-radio css-radio-primary m-r-20" for="Hosteler">
+                            <input id="Hosteler" name="studentHosteler" ng-model="recordToUpdate.basic.isHosteler" ng-value="true" type="radio">
+                            <span></span> Yes </label>
+                        <label class="css-input css-radio css-radio-primary" for="NotHosteler">
+                            <input id="NotHosteler" name="studentHosteler" checked ng-model="recordToUpdate.basic.isHosteler" ng-value="false" type="radio">
+                            <span></span> No </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="recordToUpdate.basic.isHosteler">
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="hostelName" class="required">Hostel Block Name</label>
+                        <input id="hostelName" name="hostelName" ng-model="recordToUpdate.basic.hostelBlockName" class="form-control" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <div>
+                        <label for="hostelRoomNumber" class="required">Hostel Room Number</label>
+                        <input id="hostelRoomNumber" name="hostelRoomNumber" ng-model="recordToUpdate.basic.hostelRoomNumber" class="form-control"
+                            type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group pull-right">
+                <div class="col-sm-12">
+                    <input class="btn btn-secondary m-r-10" ng-click="setEnvironmentForEditItem('basic',false, -1, '#basicInfo')" type="button"
+                        value="Discard Changes" />
+
+                    <input class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('basic', '#basicInfo')" type="submit" value="Save Changes"
+                    />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="prompt-religions" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-slideup">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button" ng-click="onCancellingAddNewFieldToBasicDetails('religion')">
+                                    <i class="si si-close"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">New Religion</h3>
+                    </div>
+                    <div class="block-content push-10">
+                        <label>Enter new religion</label>
+                        <input id="placeOfBirth" ng-model="customReligion" class="form-control" type="text" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal" ng-click="onCancellingAddNewFieldToBasicDetails('religion')">Close</button>
+                    <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal" ng-disabled="!customReligion" ng-click="setCustomValueToBasicDetails('religion', 'religions', customReligion)">
+                        <i class="fa fa-check"></i> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="prompt-motherTongues" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-slideup">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button" ng-click="onCancellingAddNewFieldToBasicDetails('motherTongue')">
+                                    <i class="si si-close"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">New language</h3>
+                    </div>
+                    <div class="block-content push-10">
+                        <label>Enter new language</label>
+                        <input id="placeOfBirth" ng-model="customLanguage" class="form-control" type="text" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal" ng-click="onCancellingAddNewFieldToBasicDetails('motherTongue')">Close</button>
+                    <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal" ng-disabled="!customLanguage" ng-click="setCustomValueToBasicDetails('motherTongue', 'motherTongues', customLanguage)">
+                        <i class="fa fa-check"></i> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="prompt-castes" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-slideup">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button" ng-click="onCancellingAddNewFieldToBasicDetails('caste')">
+                                    <i class="si si-close"></i>
+                                </button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">New caste</h3>
+                    </div>
+                    <div class="block-content push-10">
+                        <label>Enter new caste</label>
+                        <input id="placeOfBirth" ng-model="customCaste" class="form-control" type="text" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal" ng-click="onCancellingAddNewFieldToBasicDetails('caste')">Close</button>
+                    <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal" ng-disabled="!customCaste" ng-click="setCustomValueToBasicDetails('caste', 'castes', customCaste)">
+                        <i class="fa fa-check"></i> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

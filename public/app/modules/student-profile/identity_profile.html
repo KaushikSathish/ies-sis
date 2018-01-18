@@ -1,0 +1,148 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewIdentityInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+    <h5 class="profile-sections-header">Identity</h5>
+    <a class="pull-right" ng-click="setEnvironmentForEditItem('identity', true, -1, '#identityInfo')"><i class="icon-pencil7"></i></a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewIdentityInfo" ng-hide="editable['identity']" class="collapse in">
+    <div class="row">
+      <div class="col-sm-6">
+        <ul class="labelvalue">
+          <!-- <li>
+                  <p> <span> Name (as in Aadhaar)</span> {{studentRecord.identity.studentAadhaarName}}</p>
+                </li> -->
+          <li>
+            <p> <span> Aadhaar Number</span> {{studentRecord.identity.studentAadhaarNumber}}</p>
+          </li>
+          <li>
+            <p> <span> Blood Group</span> {{studentRecord.identity.bloodGroup}}</p>
+          </li>
+          <li>
+            <p> <span> Height</span> {{studentRecord.identity.height}} cms</p>
+          </li>
+          <li>
+            <p> <span> Weight</span>{{studentRecord.identity.weight}} kgs</p>
+          </li>
+
+        </ul>
+      </div>
+      <div class="col-sm-6">
+        <ul class="labelvalue">
+          <!-- <li>
+                  <p> <span> Name (as in Passport)</span>{{studentRecord.identity.studentPassportName}} </p>
+                </li> -->
+          <li>
+            <p> <span> Passport Number</span> {{studentRecord.identity.studentPassportNumber}}</p>
+          </li>
+          <li>
+            <p> <span> Resident Status</span> {{studentRecord.identity.residentStatus}}</p>
+          </li>
+          <li>
+            <p> <span> Identity 1</span> {{studentRecord.identity.identity1}}</p>
+          </li>
+          <li>
+            <p> <span> Identity 2</span> {{studentRecord.identity.identity2}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--Start Identity Info Add/Edit Section-->
+  <div id="editIdentityInfo" ng-show="editable['identity']">
+    <form name="identityInfo" id="identityInfo">
+      <div class="row">
+        <!-- <div class="col-sm-6">
+                <label for="studentAadhaarName" class="required">Student Name (as in Aadhaar) </label>
+                <input id="studentAadhaarName" name="studentAadhaarName" placeholder="Name" ng-model="recordToUpdate.identity.studentAadhaarName" class="form-control" type="text" >
+              </div> -->
+        <div class="col-sm-4  form-group">
+          <div>
+            <label for="studentAadhaarNumber" class="required">Aadhaar Number</label>
+            <input id="studentAadhaarNumber" name="studentAadhaarNumber" placeholder="Aadhar number" ng-model="recordToUpdate.identity.studentAadhaarNumber"
+              class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentPanNumber">PAN Number</label>
+            <input id="studentPanNumber"  name="studentPanNumber" placeholder="PAN number" ng-model="recordToUpdate.identity.studentPanNumber" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentPassportNo">Passport Number</label>
+            <input id="studentPassportNo" name="studentPassportNo" placeholder="Passport number" ng-model="recordToUpdate.identity.studentPassportNumber" class="form-control"
+              type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4  form-group">
+          <div>
+            <label for="bloodGroup" class="required">Blood Group</label>
+            <select id="bloodGroup" name="bloodGroup" class="form-control" data-js-select2 select-selection="recordToUpdate.identity.bloodGroup"
+              data-placeholder="Please Select Blood Group" select-options="bg in bloodGroups">
+                    <option value="" disabled selected></option>                   
+                  </select>
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentHeight">Student Height (in cms) </label>
+            <input id="studentHeight" placeholder="Eg: 173" name="studentHeight" ng-model="recordToUpdate.identity.height" class="form-control"
+              type="text">
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentWeight">Student Weight (in kgs) </label>
+            <input id="studentWeight" placeholder="Eg: 70" name="studentWeight" ng-model="recordToUpdate.identity.weight" class="form-control"
+              type="text">
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row"> -->
+      <!-- <div class="col-sm-6 form-group">
+          <div>
+            <label for="studentPassportName">Student Name (as in Passport) </label>
+            <input id="studentPassportName" ng-model="recordToUpdate.identity.studentPassportName" class="form-control" type="text">
+          </div>
+        </div> -->
+      <!-- </div> -->
+      <div class="row">
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentResidentStatus" class="required">Resident Status</label>
+            <select class="form-control" data-js-select2 id="studentResidentStatus" name="studentResidentStatus" select-selection="recordToUpdate.identity.residentStatus"
+              data-placeholder="Please Select Resident Status" select-options="s in residentStatuses">
+                    <option value="" disabled selected></option>              
+                      </select>
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentIdentity1" class="required">Student Identitification Mark 1  </label>
+            <input id="studentIdentity1" placeholder="Ex: A mole on left cheek" name="studentIdentity1" ng-model="recordToUpdate.identity.identity1"
+              class="form-control" type="text" />
+          </div>
+        </div>
+        <div class="col-sm-4 form-group">
+          <div>
+            <label for="studentIdentity2">Student Identitification Mark 2 </label>
+            <input id="studentIdentity2" placeholder="Ex: A mole on right cheek" name="studentIdentity2" ng-model="recordToUpdate.identity.identity2"
+              class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group pull-right">
+        <div class="col-sm-12">
+          <button class="btn btn-secondary m-r-10" ng-click="setEnvironmentForEditItem('identity', false, -1, '#identityInfo')" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('identity', '#identityInfo')" type="submit">Save Changes</button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </form>
+  </div>
+</div>

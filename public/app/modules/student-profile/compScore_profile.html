@@ -1,0 +1,120 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewCompExamInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Competitive Exam Scores</h5>
+    <a class="add-task-btn" data-target="#compExamSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('compExam')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Competive Exam Score</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewCompExamInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="compExam in studentRecord.compExam">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['compExam'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('compExam', compExam.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#compExamSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('compExam', true, compExam.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{compExam.compExamName}} </h5>
+          <ul class="list">
+            <li>{{compExam.studentPercentage}}%</li>
+            <li>
+              <label>Issued on: </label>{{compExam.compExamDate}}
+              <label> By: </label> {{compExam.orgBody}}</li>
+            <li> {{compExam.compExamDescription}}</li>
+            <li>
+              <label>Competitive Score Certificate:</label>
+              <span class="tags" ng-repeat="file in compExam.compExamCertificate" ng-if="(compExam.compExamCertificate.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('compExams', compExam.itemIndex, 'compExamCertificate', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(compExam.compExamCertificate.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="compExamSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('compExam', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Competitive Score </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-sm-4">
+              <label for="studentCompExamName" class="required">Competitive Exam Name</label>
+              <input id="studentCompExamName" ng-model="recordToUpdate.compExam.compExamName" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="markSecured" class="required">Marks Secured</label>
+              <input id="markSecured" ng-model="recordToUpdate.compExam.compExamScore" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="maxMarks" class="required">Maximum Marks</label>
+              <input id="maxMarks" ng-model="recordToUpdate.compExam.maxMarks" class="form-control" type="text">
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-sm-4">
+              <label for="orgBody" class="required">Organizing Body</label>
+              <input id="orgBody" ng-model="recordToUpdate.compExam.orgBody" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="compExamRank" class="required">Rank</label>
+              <input id="compExamRank" ng-model="recordToUpdate.compExam.compExamRank" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="studentCompExamDate">Date of Result </label>
+              <input class="form-control custom-datepicker" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.compExam.compExamDate" type="text"
+                id="studentCompExamDate" data-date-format="dd/M/yyyy">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-sm-8">
+              <label for="studentDesc" class="required"> Description</label>
+              <textarea id="studentDesc" ng-model="recordToUpdate.compExam.compExamDescription" class="form-control stdTextarea" required></textarea>
+            </div>
+            <div class="col-sm-4" "editable['compExam']">
+              <label for="compExamCertificate">Competitive Score Certificate</label>
+              <div ng-if="(recordToUpdate.compExam.compExamCertificate.length > 0)" class="tags" ng-repeat="file in recordToUpdate.compExam.compExamCertificate">
+                <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                  <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'compExamCertificate')"></i>
+                </a>
+              </div>
+
+              <div ng-if="((recordToUpdate.compExam.compExamCertificate.length == 0) || (compExamCertificate['dupeMaxFiles'])) && notToggle"
+                id="compExamCertificate" ng-click="captureFieldName('compExamCertificate')" class="dropzone" options="fileAttachment['compExamCertificate'].dzOptions"
+                callbacks="fileAttachment['compExamCertificate'].dzCallbacks" methods="fileAttachment['compExamCertificate'].dzMethods"
+                ng-dropzone></div>
+            </div>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('compExam', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('compExam', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewItSkillsInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+    <h5 class="profile-sections-header">Computer/IT Skills</h5>
+    <span class="push-5-l"  data-uib-popover="For each section below, you can select from dropdown list or add your own item into the list" data-popover-title="Notes" data-popover-trigger="'mouseenter'" data-popover-placement="right"><i class="icon-question4"></i></span>
+    <a class="pull-right"   ng-show="studentRecord.itSkills"  ng-click="setEnvironmentForEditItem('itSkills', true, -1, 0)"><i class="icon-pencil7"></i></a>
+    <a class="pull-right add-task-btn"    ng-show="!studentRecord.itSkills"  ng-click="setEnvironmentForEditItem('itSkills', true, -1, 0)"><i class="icon-plus-circle2"></i><span>Add IT Skills</span></a>
+    
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewItSkillsInfo" ng-hide="editable['itSkills']" class="collapse in">
+    <div class="row padded-b">
+      <div class="col-sm-3">
+        <div for="langSkills" class="profile-list-header">Languages</div>
+        <span id="langSkills" class="badge badge-primary badge-lg push-5-r" ng-repeat="itSkill in studentRecord.itSkills.itSkillsLanguages"> {{itSkill}} </span>
+      </div>
+      <div class="col-sm-3">
+        <div for="osSkills" class="profile-list-header">Operating Systems / Platforms</div>
+        <span id="osSkills" class="badge badge-primary badge-lg push-5-r" ng-repeat="itSkill in studentRecord.itSkills.itSkillsOs"> {{itSkill}} </span>
+      </div>
+      <div class="col-sm-3">
+        <div for="techItSkills" class="profile-list-header">Technologies</div>
+        <span id="techItSkills" class="badge badge-primary badge-lg push-5-r" ng-repeat="itSkill in studentRecord.itSkills.itSkillsTechnologies"> {{itSkill}} </span>
+      </div>
+      <div class="col-sm-3">
+        <div for="toolItSkills" class="profile-list-header">Tools</div>
+        <span id="toolItSkills" class="badge badge-primary badge-lg push-5-r" ng-repeat="itSkill in studentRecord.itSkills.itSkillsTools"> {{itSkill}} </span>
+      </div>
+    </div>
+  </div>
+  <form id="editItSkillsInfo" ng-show="editable['itSkills']">
+    <div class=" row form-group">
+      <div class="col-sm-3">
+        <label class="control-label">Languages</label>
+        <select data-js-select2 class="form-control" select-selection="recordToUpdate.itSkills.itSkillsLanguages" data-placeholder="Choose/Enter known Languages"
+          select-options="itSkillLanguage in itSkillsLanguages" select-add-item="true" select-add-callback="addNewItemToLookup"
+          select-lookup-name="itSkillsLanguages" multiple>
+                      <option value="" disabled></option>
+                       </select>
+      </div>
+      <div class="col-sm-3">
+        <label class="control-label">Operating Systems / Platforms</label>
+        <select data-js-select2 class="form-control" select-selection="recordToUpdate.itSkills.itSkillsOs" data-placeholder="Choose/Enter known Os"
+          multiple select-options="itSkillOs in itSkillsOs" select-add-item="true" select-add-callback="addNewItemToLookup"
+          select-lookup-name="itSkillsOs">
+                      <option value="" disabled ></option>
+                      </select>
+      </div>
+      <div class="col-sm-3">
+        <label class="control-label" for="example-select2-multiple">Technologies</label>
+        <select data-js-select2 class="form-control" select-selection="recordToUpdate.itSkills.itSkillsTechnologies" data-placeholder="Choose/Enter known Technologies"
+          multiple select-options="itSkillTechnology in itSkillsTechnologies" select-add-item="true" select-add-callback="addNewItemToLookup"
+          select-lookup-name="itSkillsTechnologies">
+                       <option value="" disabled ></option>
+                       </select>
+      </div>
+      <div class="col-sm-3">
+        <label class="control-label" for="example-select2-multiple">Tools</label>
+        <select data-js-select2 class="form-control" select-selection="recordToUpdate.itSkills.itSkillsTools" data-placeholder="Choose/Enter known tools"
+          multiple select-options="itSkillTool in itSkillsTools" select-add-item="true" select-add-callback="addNewItemToLookup"
+          select-lookup-name="itSkillsTools">
+                        <option value="" disabled></option>
+                        </select>
+      </div>
+    </div>
+    <div class="row form-group pull-right">
+      <div class="col-sm-12">
+        <input class="btn btn-secondary m-r-10" ng-click="setEnvironmentForEditItem('itSkills', false, -1, 0)" type="button" value="Discard Changes" />
+        <input class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('itSkills', 0)" type="button" value="Save Changes" />
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </form>
+</div>

@@ -1,0 +1,372 @@
+<div>
+  <ul class="breadcrumb">
+    <li>Home</li>
+    <li>Student Management</li>
+    <li>
+      <a class="link-effect" href="">Student Profile</a>
+    </li>
+  </ul>
+
+  <!-- Page Content -->
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="element-wrapper">
+          <!-- <div class="element-actions"><a class="btn btn-primary btn-sm" href="#"><i class="icon-plus-circle2"></i><span>Generate Resume</span></a></div> -->
+          <h4 class="element-header">Student Profile</h4>
+        </div>
+        <div ng-show="saveSuccess" class="alert alert-success alert-white rounded">
+            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+            <div class="icon">
+                <i class="fa fa-check"></i>
+            </div>
+            <strong>Success!</strong> 
+            Changes have been saved successfully!
+        </div>
+        <div  ng-show="saveFailure" class="alert alert-danger alert-white rounded">
+            <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+            <div class="icon">
+                <i class="fa fa-times-circle"></i>
+            </div>
+            <strong>Error!</strong> 
+            Failed to save changes. Please refresh and retry again
+        </div>
+      </div>
+    </div>
+    <div class="text-center loader" ng-show="showLoader">
+      <i class="fa fa-4x fa-sun-o fa-spin"></i>
+    </div>
+    <div ng-hide="showLoader">
+      <!-- Page Content -->
+      <div class="row">
+        <div class="col-md-3">
+          <!-- Predefined Score -->
+          <div class="block">
+            <div class="block-content block-content-full">
+              <div class="side-bar">
+                <div class="profile-pic">
+                  <img ng-show="!showUploadDP" src="{{dpSource}}" class="img-avatar img-avatar128 img-circle" alt="No Photo Available">
+                  <div class="edit tags">
+                    <a class="tag" href="javascript:void(0)" ng-click="openDropzoneUploadDP()">Change Picture</a>
+                  </div>
+                </div>
+
+                <!-- Professional Details -->
+                <h5 class="tittle">{{studentRecord.studentName}}</h5>
+                <div class="cover-center" ng-if="showDpLoader">
+                  <div class="center-inner">
+                    <i class="fa fa-2x fa-sun-o fa-spin"></i>
+                  </div>
+                </div>
+                <div ng-show="showUploadDP && !showDpLoader">
+                  <div class="form-group push-20-t">
+                    <div class="dropzone" options="displayPicture.dzOptions" callbacks="displayPicture.dzCallbacks" methods="displayPicture.dzMethods"
+                      ng-dropzone></div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-sm-12">
+                      <button class="btn btn-primary pull-right" type="submit" ng-click="saveDisplayPicture()" ng-disabled="!isDisplayPicture">Save Profile Picture</button>
+                      <button class="btn btn-secondary pull-right push-5-r" type="submit" ng-click="closeDropzoneUploadDP()">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="push-20"></div>
+
+                <p>
+                  <span class="font-s15 font-w600">{{studentRecord.programName}} {{studentRecord.branchName}}</span>
+                  <br> {{studentRecord.rollNumber}}</p>
+                <div class="cover-center">
+                  <div class="center-inner" ng-if="showSaveSectionLoader">
+                    <i class="fa fa-2x fa-sun-o fa-spin"></i>
+                  </div>
+                </div>
+
+                <div ng-if="!showSaveSectionLoader">
+                  <div ng-if="!changeMobileSection && !verifyMobile" class="push-10">
+                    <div class="push-10-t">
+                      <span ng-if="studentRecord.studentContactNo">{{studentRecord.studentContactNo}}</span>
+                      <span ng-if="!studentRecord.studentContactNo">Mobile number is missing.</span>
+                      <span class="label label-warning" ng-show="studentRecord.studentContactNo && studentRecord.mobileVerification">Verified</span>
+                      <span class="label label-warning" ng-show="studentRecord.studentContactNo && !studentRecord.mobileVerification">Unverified</span>
+                    </div>
+                    <div class="tags push-5-t push-10" ng-if="studentRecord.studentContactNo">
+                      <a class="tag push-5-r" href="javascript:void(0)" ng-click="openChangeMobile('Change')">Change Mobile</a>
+                      <a class="tag" href="javascript:void(0)" ng-show="!studentRecord.mobileVerification"
+                        ng-click="openVerifyMobile()">Verify Mobile</a>
+                    </div>
+                    <div class="tags push-5-t push-10" ng-if="!studentRecord.studentContactNo">
+                      <a class="tag" href="javascript:void(0)" ng-click="openChangeMobile('Add')">Add Mobile</a>
+                    </div>
+                  </div>
+                  
+                  <div ng-if="changeMobileSection">
+                    <form id="addMobileForm">
+                      <div class="form-group push-10-t">
+                        <div class="form-group mobileForm">
+                          <label for="val-studentMobile">Enter New Mobile Number</label>
+                          <input id="val-studentMobile" name="val-studentMobile" ng-model="dupeStudentRecord.studentContactNo" ng-change="userTypesMobileNumber()"
+                            placeholder="XXX-XXX-XXXX" class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-sm-12">
+                          <button class="btn btn-primary pull-right" type="submit" ng-click="saveMobileNumber()">{{mobileOPTag}} Mobile Number</button>
+                          <button class="btn btn-secondary pull-right push-5-r" type="submit" ng-click="cancelSaveMobile()">Cancel</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div ng-if="verifyMobile && !showVerificationLoader">
+                    <p class="push-10-t">We have sent an One Time Password (OTP) to
+                      <strong>{{studentRecord.studentContactNo}}</strong>. Please enter the OTP below to ensure that we have the
+                      correct mobile number.</p>
+                    <div class="form-group mobileCode">
+                      <label for="otp">OTP</label>
+                      <input id="otp" placeholder="" ng-model="userConfCode.mobile" ng-change="userTypesMobileConfCode()" class="form-control"
+                        type="text">
+                      <div class="help-block animated fadeInDown" ng-if="!mobileOTPMatched">
+                        OTP doesn't match
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-sm-6">Didn't receive the OTP.
+                        <a href="javascript:void(0)" ng-click="openVerifyMobile()">Resend OTP</a>
+                      </div>
+                      <div class="col-sm-6">
+                        <button class="btn btn-primary pull-right" type="submit" ng-click="checkMobileOTP()">Verify Mobile</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div ng-if="!showSaveSectionLoader">
+                  <div ng-if="!changeEmailSection && !verifyEmail">
+                    <div class="push-10-t">
+                      <span ng-if="studentRecord.studentEmail">{{studentRecord.studentEmail}}</span>
+                      <span ng-if="!studentRecord.studentEmail">Email is missing.</span>
+                      <span class="label label-warning" ng-show="studentRecord.studentEmail && studentRecord.emailVerification">Verified</span>
+                      <span class="label label-warning" ng-show="studentRecord.studentEmail && !studentRecord.emailVerification">Unverified</span>
+                    </div>
+
+                    <div class="tags push-5-t" ng-if="studentRecord.studentEmail">
+                      <a class="tag push-5-r" href="javascript:void(0)" ng-click="openChangeEmail('Change')">Change Email</a>
+                      <a class="tag" href="javascript:void(0)" ng-show="!studentRecord.emailVerification"
+                        ng-click="openVerifyEmail()">Verify Email</a>
+                    </div>
+                    <div class="tags push-5-t" ng-if="!studentRecord.studentEmail">
+                      <a class="tag" href="javascript:void(0)" ng-click="openChangeEmail('Add')">Add Email</a>
+                    </div>
+                  </div>
+                  
+                  <div ng-if="changeEmailSection">
+                    <form id="addEmailForm">
+                      <div class="form-group push-10-t">
+                        <div class="form-group">
+                          <label for="val-studentEmail">Enter New Email ID</label>
+                          <input id="val-studentEmail" name="val-studentEmail" ng-model="dupeStudentRecord.studentEmail" placeholder="abc@xyz.com"
+                            class="form-control" type="text">
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-sm-12">
+                          <button class="btn btn-primary pull-right" type="submit" ng-click="saveEmail()">{{emailOPTag}} Email Address</button>
+                          <button class="btn btn-secondary pull-right push-5-r" type="submit" ng-click="cancelSaveEmail()">Cancel</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  
+                  <div ng-if="verifyEmail && !showVerificationLoader">
+                      <p>We have sent an email to
+                        <strong>{{studentRecord.studentEmail }}</strong> with a confirmation code. Please enter the confirmation code
+                        below to ensure that we have the correct email address.</p>
+                      <div class="form-group emailCode">
+                        <label for="confcode">Confirmation Code</label>
+                        <input id="confcode" placeholder="" ng-model="userConfCode.email" ng-change="userTypesEmailConfCode()" class="form-control"
+                          type="text">
+                        <div class="help-block animated fadeInDown" ng-if="!emailConfCodeMatched">
+                          Confirmation code doesn't match
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-sm-6">Didn't receive the Email.
+                          <a href="javascript:void(0)" ng-click="openVerifyEmail()">Resend Confirmation Code</a>
+                        </div>
+                        <div class="col-sm-6">
+                          <button class="btn btn-primary pull-right" type="submit" ng-click="checkEmailConfCode()">Verify Email</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="cover-center push-10-t push-10" ng-if="showVerificationLoader">
+                  <div class="center-inner">
+                    <i class="fa fa-2x fa-sun-o fa-spin"></i>
+                  </div>
+                </div>
+
+                <!-- <h5 class="tittle">Profile Completeness</h5>
+                <div class="padding-t-25">
+                  <div class="progress active">
+                    <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                      aria-valuemax="100" style=" width: {{profilePercentage}}% ">{{profilePercentage}}%</div>
+                  </div>
+                  <p>Profile is {{profilePercentage}}% complete.</p>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="block">
+            <ul class="nav nav-tabs" data-js-tabs>
+              <li class="active">
+                <a href="#viewBio">Short Bio</a>
+              </li>
+              <li class="pull-right">
+                <ul class="block-options push-15-t push-30-r">
+
+                  <li>
+                    <button type="button" ng-hide="editable['shortBio']" ng-click="edit('shortBio',true)" data-js-block-option>
+                      <i class="icon-pencil7"></i>
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" data-js-block-option data-action="content_toggle"></button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <div class="block-content tab-content">
+              <div class="tab-pane active ">
+                <div id="viewBio">
+                  <div class="row">
+                    <div class="col-sm-12 padded-b">
+                      <h5>Tell us a Litte About Yourself</h5>
+                      <p ng-hide="editable['shortBio']">{{studentRecord.shortBio.self}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div id="editBio" ng-show="editable['shortBio']">
+                  <div class="row padded-b">
+                    <div class="col-sm-12">
+                      <input id="studentBio" name="studentBio" ng-model="recordToUpdate.shortBio.self" class="form-control" type="text">
+                    </div>
+                  </div>
+                  <div class="row form-group  pull-right">
+                    <div class="col-sm-12">
+                      <button class="btn btn-secondary m-r-10" ng-click="edit('shortBio',false)" type="submit">Discard Changes</button>
+                      <button class="btn btn-primary" ng-click="saveSectionItem('shortBio',0)" type="submit">Save Changes</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END Predefined Score -->
+
+        <div class="col-md-9">
+          <!-- Predefined Score -->
+
+          <div class="os-tabs-controls">
+            <ul class="nav nav-tabs upper" data-js-tabs>
+              <li class="active">
+                <a href="#tab_personal">Personal</a>
+              </li>
+              <li>
+                <a href="#tab_academic">Academic</a>
+              </li>
+              <li>
+                <a href="#tab_projects">Research</a>
+              </li>
+              <li>
+                <a href="#tab_skills">Skills</a>
+              </li>
+              <li>
+                <a href="#tab_activities">Activities & Achievements</a>
+              </li>
+              <li>
+                <a href="#tab_passOut">Placement/Higher Education</a>
+              </li>
+            </ul>
+
+          </div>
+
+          <!--Tab Content-->
+          <div class="block">
+            <div class="block-content tab-content">
+              <!--New Tab - Basic-->
+              <div class="tab-pane active " id="tab_personal">
+                <!--Start Personal Profile Display Section-->
+                <div class="profile-sections">
+                  <basic-profile-view></basic-profile-view>
+                  <family-profile-view></family-profile-view>
+                  <contact-profile-view></contact-profile-view>
+                  <language-profile-view></language-profile-view>
+                  <identity-profile-view></identity-profile-view>
+                  <digital-identity-profile-view></digital-identity-profile-view>
+                  <bank-details-profile-view></bank-details-profile-view>
+                </div>
+                <!--End Personal Profile Display Section-->
+              </div>
+              <!--New Tab - Academic-->
+              <div class="tab-pane" id="tab_academic">
+                <div class="profile-sections">
+                  <admissions-profile-view></admissions-profile-view>
+                  <education-profile-view></education-profile-view>
+                  <experience-profile-view></experience-profile-view>
+                  <scholarship-profile-view></scholarship-profile-view>
+                </div>
+              </div>
+              <!--New Tab - Projects-->
+              <div class="tab-pane" id="tab_projects">
+                <div class="profile-sections">
+                  <projects-profile-view></projects-profile-view>
+                  <internship-profile-view></internship-profile-view>
+                  <publications-profile-view></publications-profile-view>
+                  <patent-profile-view></patent-profile-view>
+
+                </div>
+              </div>
+              <!--New Tab - Skills-->
+              <div class="tab-pane" id="tab_skills">
+                <div class="profile-sections">
+                  <it-skills-profile-view></it-skills-profile-view>
+                  <technical-skills-profile-view></technical-skills-profile-view>
+                  <interests-profile-view></interests-profile-view>
+                  <value-addition-profile-view></value-addition-profile-view>
+                  <certification-profile-view></certification-profile-view>
+                  <comp-score-profile-view></comp-score-profile-view>
+                </div>
+              </div>
+              <!--New Tab - Activities-->
+              <div class="tab-pane" id="tab_activities">
+                <div class="profile-sections">
+                  <academic-awards-profile-view></academic-awards-profile-view>
+                  <competition-profile-view></competition-profile-view>
+                  <clubs-profile-view></clubs-profile-view>
+                  <associations-profile-view></associations-profile-view>
+                  <events-profile-view></events-profile-view>
+                  <industrial-visit-profile-view></industrial-visit-profile-view>
+                  <hobbies-profile-view></hobbies-profile-view>
+                </div>
+              </div>
+              <!--New Tab - Pass Out-->
+              <div class="tab-pane" id="tab_passOut">
+                <div class="profile-sections">
+                  <placement-profile-view></placement-profile-view>
+                  <entrepreneurship-profile-view></entrepreneurship-profile-view>
+                  <higher-education-profile-view></higher-education-profile-view>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- END Page Content -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewCertificationsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Certifications</h5>
+    <a class="add-task-btn" data-target="#certificationSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+      ng-click="setEnvironmentAddSectionItem('certifications')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Certification</span>
+    </a>
+
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewCertificationsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="cert in studentRecord.certifications">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['certifications'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('certifications', cert.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#certificationSectionItemModal" data-toggle="modal" class="floating-hyperlink" data-backdrop="static"
+              data-keyboard="false" ng-click="setEnvironmentForEditItem('certifications', true, cert.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{cert.certificationName}} </h5>
+          <ul class="list">
+            <li>{{cert.certificationArea}} </li>
+            <li> {{cert.certificationAuthorityName}}</li>
+            <li>
+              <label>Issued on: </label>{{cert.certificationDate}}
+              <label>Validity: </label>{{cert.validity}}</li>
+            <li>{{cert.certificationLevel}}, {{cert.certificationScore}} </li>
+            <li> {{cert.certectDescription}} </li>
+            <li>
+              <label>Course Completion Certificate:</label>
+              <span class="tags" ng-repeat="file in cert.certificationCert" ng-if="(cert.certificationCert.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('certifications', cert.itemIndex, 'certificationCert', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(cert.certificationCert.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Start Certifications Add/Edit Section-->
+  <div id="certificationSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('certifications', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Certification </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editCertificationsInfo" name="certificationInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentCertName" class="required">Name of the Certification</label>
+                <input id="studentCertName" ng-model="recordToUpdate.certifications.certificationName" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="studentCertField" class="required">Area/Field of Relevance</label>
+                <input id="studentCertField" name="studentCertField" ng-model="recordToUpdate.certifications.certificationArea" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="studentCertAuthority" class="required">Name of Issuing Authority/Industry</label>
+                <input id="studentCertAuthority" name="studentCertAuthority" ng-model="recordToUpdate.certifications.certificationAuthorityName"
+                  class="form-control" type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4 inner-split">
+                <div class="col-sm-6">
+                  <label for="studentCertDate" class="required">Issue Date</label>
+                  <input data-js-datepicker class="form-control" data-date-end-date="0d" datepicker-date="recordToUpdate.certifications.certificationDate" type="text"
+                    id="studentCertDate" name="studentCertDate" data-date-format="dd/M/yyyy">
+                </div>
+                <div class="col-sm-6">
+                  <label for="validity" class="required">Validity</label>
+                  <input data-js-datepicker class="form-control" datepicker-date="recordToUpdate.certifications.validity" type="text" id="validity"
+                    name="validity" data-date-format="dd/M/yyyy">
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentCertLevel">Level</label>
+                <select class="form-control" data-js-select2 id="studentCertLevel" select-selection="recordToUpdate.certifications.certificationLevel"
+                  select-options="level in certificationLevels">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentScore" class="required">Score</label>
+                <input id="studentScore" name="studentScore" ng-model="recordToUpdate.certifications.certificationScore" class="form-control"
+                  type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentCertDesp">Description</label>
+                <textarea id="studentCertDesp" ng-model="recordToUpdate.certifications.certificationDescription" class="form-control stdTextarea"
+                  type="text"></textarea>
+              </div>
+              <div class="col-sm-4" "editable['certifications']">
+                <label for="certificationCert">Course Completion Certificate</label>
+                <div ng-if="(recordToUpdate.certifications.certificationCert.length > 0)" class="tags" ng-repeat="file in recordToUpdate.certifications.certificationCert">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'certificationCert')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.certifications.certificationCert.length == 0) || (certificationCert['dupeMaxFiles'])) && notToggle"
+                  id="certificationCert" ng-click="captureFieldName('certificationCert')" class="dropzone" options="fileAttachment['certificationCert'].dzOptions"
+                  callbacks="fileAttachment['certificationCert'].dzCallbacks" methods="fileAttachment['certificationCert'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('certifications', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('certifications', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

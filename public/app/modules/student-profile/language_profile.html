@@ -1,0 +1,68 @@
+
+<div class="profile-section">
+        <!--START - profile-sections HEADER-->
+        <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewLanguagesInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+          <h5 class="profile-sections-header">Languages Known</h5>
+          <a class="pull-right" ng-click="edit('languagesKnown', true)"><i class="icon-pencil7"></i></a>
+        </div>
+        <!--END - profile-sections HEADER-->
+        <div id="viewLanguagesInfo" ng-hide="editable['languagesKnown']" class="collapse in">
+          <div class="row">
+            <div class="col-sm-6">
+              <ul class="labelvalue" ng-repeat="language in studentRecord.languagesKnown">
+                <li>
+                  <p> {{language.name}}
+                    <span class="badge badge-primary" ng-show="language.read">Read </span>
+                    <span class="badge badge-warning" ng-show="language.write">Write </span>
+                    <span class="badge badge-success" ng-show="language.speak">Speak </span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--Start Languages Info Add/Edit Section-->
+        <div id="editLanguagesInfo" ng-show="editable['languagesKnown']">
+          <form name="languagesInfo">
+            <div class="push-10">
+              <label for="studentLanguages">Languages Known</label>
+              <ul class="float-button">
+                <li>
+                  <button ng-click="addLanguage()" type="button" data-js-block-option><i class="icon-plus-circle2"></i></button>
+                </li>
+              </ul>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6 push-10"  ng-repeat="lang in recordToUpdate.languagesKnown">        
+                  <div>
+                      <select class="form-control" data-js-select2 data-placeholder="Select Language known" id="languageKnown{{$index}}" name="languageKnown{{$index}}" style="width: 100%"
+                      select-selection="lang.name" select-options="language in worldLanguages">
+                         <option value="" disabled selected></option>                                                 
+                   </select>
+                  </div>
+                    <label class="css-input css-checkbox css-checkbox-primary m-r-20" for="{{lang}}Read">
+                    <input type="checkbox" ng-model="lang.read" id="{{lang}}Read">
+                      <span></span> Read </label>
+                    <label class="css-input css-checkbox css-checkbox-primary m-r-20" for="{{lang}}Write">
+                    <input type="checkbox" ng-model="lang.write" id="{{lang}}Write">
+                      <span></span> Write </label>
+                    <label class="css-input css-checkbox css-checkbox-primary" for="{{lang}}Speak">
+                    <input type="checkbox"ng-model="lang.speak" id="{{lang}}Speak">
+                      <span></span> Speak </label>
+                    <ul class="float-button">
+                      <li>
+                        <button ng-click="removeLanguage($index)" type="button" data-js-block-option><i class="icon-minus-circle2" ></i></button>
+                      </li>
+                    </ul>
+               </div>
+            </div>
+            <div class="row form-group pull-right">
+              <div class="col-sm-12">
+                <button class="btn btn-secondary m-r-10" ng-click="edit('languagesKnown', false)" type="submit">Discard Changes</button>
+                <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('languagesKnown', 0)" ng-disabled="languagesInfo.$invalid" type="submit">Save Changes</button>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>

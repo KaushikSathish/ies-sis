@@ -1,0 +1,146 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewExperienceInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Work Experience</h5>
+    <a data-target="#experienceSectionItemModal" data-toggle="modal" class="add-task-btn" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('workExperience')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Experience </span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewExperienceInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="workExp in studentRecord.workExperience">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['workExperience'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('workExperience', workExp.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+            <a data-target="#experienceSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('workExperience', true, workExp.itemIndex, 0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{workExp.workDesignation}} </h5>
+          <h6>
+            <a href="javascript:void(0)" class="cursor-default">{{workExp.workCompany}}</a>
+          </h6>
+          <ul class="list">
+            <li>{{workExp.workCity}}</li>
+            <li> {{workExp.workStartDate}}
+              <span ng-show="workExp.workEndDate"> {{" - " + workExp.workEndDate}}, {{workExp.experienceInMonths}} Months</span>
+            </li>
+            <li class="wrap-text">{{workExp.workDescription}} </li>
+            <li>
+              <label>Offer Letter:</label>
+              <span class="tags" ng-repeat="file in workExp.workExperienceOfferLetter" ng-if="(workExp.workExperienceOfferLetter.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('workExperience', workExp.itemIndex, 'workExperienceOfferLetter', file.originalname)"
+                  href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(workExp.workExperienceOfferLetter.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+            <li>
+              <label>Completion Certificate:</label>
+              <span class="tags" ng-repeat="file in workExp.workExperienceCompletion" ng-if="(workExp.workExperienceCompletion.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('workExperience', workExp.itemIndex, 'workExperienceCompletion', file.originalname)"
+                  href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(workExp.workExperienceCompletion.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Start Work Experience Add/Edit Section-->
+  <div id="experienceSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('workExperience', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"> Add/ Edit Work Experience</h4>
+        </div>
+        <div class="modal-body">
+          <form id="editExperienceInfo" ng-show="editable['workExperience']" name="experienceInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentDesignation" class="required">Designation</label>
+                <input id="studentDesignation" required ng-model="recordToUpdate.workExperience.workDesignation" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="studentCompanyName" class="required">Company Name</label>
+                <input id="studentCompanyName" required ng-model="recordToUpdate.workExperience.workCompany" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="studentCompanyName" class="required">City</label>
+                <select class="form-control custom-select2" required data-js-select2 data-placeholder="Select/Enter City" id="studentCompanyName"
+                  name="studentCompanyName" select-selection="recordToUpdate.workExperience.workCity" select-options="city in cities"
+                  select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities">
+                </select>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="workStartDate" class="required">Date of Joining</label>
+                <input id="workStartDate" required class="form-control" data-js-datepicker data-date-end-date="0d" type="text" datepicker-date="recordToUpdate.workExperience.workStartDate"
+                  data-date-format="dd/M/yyyy" />
+              </div>
+              <div class="col-sm-4">
+                <label for="workEndDate" class="required">Date of Leaving</label>
+                <input id="workEndDate" required class="form-control" data-js-datepicker type="text" data-date-end-date="0d" datepicker-date="recordToUpdate.workExperience.workEndDate"
+                  data-date-format="dd/M/yyyy" />
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-6">
+                <label for="studentdesp">Description</label>
+                <textarea id="studentdesp" ng-model="recordToUpdate.workExperience.workDescription" class="form-control stdTextarea" type="text"></textarea>
+              </div>
+              <div class="col-sm-3" ng-if="editable['workExperience']">
+                <label for="workExperienceOfferLetter">Offer Letter</label>
+                <div ng-if="(recordToUpdate.workExperience.workExperienceOfferLetter.length > 0)" class="tags" ng-repeat="file in recordToUpdate.workExperience.workExperienceOfferLetter">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'workExperienceOfferLetter')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.workExperience.workExperienceOfferLetter.length == 0) || (workExperienceOfferLetter['dupeMaxFiles'])) && notToggle"
+                  id="workExperienceOfferLetter" ng-click="captureFieldName('workExperienceOfferLetter')" class="dropzone"
+                  options="fileAttachment['workExperienceOfferLetter'].dzOptions" callbacks="fileAttachment['workExperienceOfferLetter'].dzCallbacks"
+                  methods="fileAttachment['workExperienceOfferLetter'].dzMethods" ng-dropzone></div>
+              </div>
+              <div class="col-sm-3" ng-if="editable['workExperience']">
+                <label for="workExperienceCompletion">Work Experience Certificate</label>
+                <div ng-if="(recordToUpdate.workExperience.workExperienceCompletion.length > 0)" class="tags" ng-repeat="file in recordToUpdate.workExperience.workExperienceCompletion">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'workExperienceCompletion')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.workExperience.workExperienceCompletion.length == 0) || (workExperienceCompletion['dupeMaxFiles'])) && notToggle"
+                  id="workExperienceCompletion" ng-click="captureFieldName('workExperienceCompletion')" class="dropzone" options="fileAttachment['workExperienceCompletion'].dzOptions"
+                  callbacks="fileAttachment['workExperienceCompletion'].dzCallbacks" methods="fileAttachment['workExperienceCompletion'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('workExperience', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('workExperience', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+  <!--End Work Experience Add/Edit Section-->
+</div>

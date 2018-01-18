@@ -1,0 +1,126 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewIndustrialVisitInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Industrial Visit</h5>
+    <a class="add-task-btn" data-target="#industrialVisitSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('industrialVisit')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Industrial Visit</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewIndustrialVisitInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="industrialVisit in studentRecord.industrialVisit">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['industrialVisit'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('industrialVisit', industrialVisit.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#industrialVisitSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('industrialVisit', true, industrialVisit.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{industrialVisit.industryName}} </h5>
+          <ul class="list">
+            <li>{{industrialVisit.ivDate}}, {{industrialVisit.location}}</li>
+            <li>
+              <label> Point of Contact: </label> {{industrialVisit.pocName}}, {{industrialVisit.pocDesignation}}
+              <label>Ph:</label>{{industrialVisit.pocNumber}}</li>
+            <li> {{industrialVisit.industrialVisitDescription}}</li>
+            <li>
+              <label>Industrial Visit Permission Letter:</label>
+              <span class="tags" ng-repeat="file in industrialVisit.industrialVisitPermission" ng-if="(industrialVisit.industrialVisitPermission.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('industrialVisits', industrialVisit.itemIndex, 'industrialVisitPermission', file.originalname)"
+                  href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(industrialVisit.industrialVisitPermission.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="industrialVisitSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('industrialVisit', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Industrial Visit</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row form-group">
+            <div class="col-sm-4">
+              <label for="industryName" class="required">Industry Name</label>
+              <input id="industryName" ng-model="recordToUpdate.industrialVisit.industryName" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="ivDate">Industrial Visit Date </label>
+              <input class="form-control custom-datepicker" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.industrialVisit.ivDate"
+                type="text" id="ivDate" data-date-format="dd/M/yyyy">
+            </div>
+            <div class="col-sm-4">
+              <label for="location" class="required">Location</label>
+              <select data-js-select2 class="form-control" select-selection="recordToUpdate.industrialVisit.location" data-placeholder="Select City"
+              select-options="city in cities" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities">
+              <option value="" disabled></option>
+            </select>
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-sm-4">
+              <label for="pocName" class="required">PoC Name</label>
+              <input id="pocName" ng-model="recordToUpdate.industrialVisit.pocName" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="pocDesignation" class="required">PoC Designation</label>
+              <input id="pocDesignation" ng-model="recordToUpdate.industrialVisit.pocDesignation" class="form-control" type="text">
+            </div>
+            <div class="col-sm-4">
+              <label for="pocNumber" class="required">PoC Contact Number</label>
+              <input id="pocNumber" ng-model="recordToUpdate.industrialVisit.pocNumber" class="form-control" type="text">
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-sm-8">
+              <label for="studentDesc" class="required"> Description</label>
+              <textarea id="studentDesc" ng-model="recordToUpdate.industrialVisit.industrialVisitDescription" class="form-control stdTextarea"
+                required></textarea>
+            </div>
+            <div class="col-sm-4" "editable['industrialVisit']">
+              <label for="industrialVisitPermission">Industrial Visit Permission Letter: </label>
+              <div ng-if="(recordToUpdate.industrialVisit.industrialVisitPermission.length > 0)" class="tags" ng-repeat="file in recordToUpdate.industrialVisit.industrialVisitPermission">
+                <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                  <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'industrialVisitPermission')"></i>
+                </a>
+              </div>
+
+              <div ng-if="((recordToUpdate.industrialVisit.industrialVisitPermission.length == 0) || (industrialVisitPermission['dupeMaxFiles'])) && notToggle"
+                id="industrialVisitPermission" ng-click="captureFieldName('industrialVisitPermission')" class="dropzone" options="fileAttachment['industrialVisitPermission'].dzOptions"
+                callbacks="fileAttachment['industrialVisitPermission'].dzCallbacks" methods="fileAttachment['industrialVisitPermission'].dzMethods"
+                ng-dropzone></div>
+            </div>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('industrialVisit', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('industrialVisit', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

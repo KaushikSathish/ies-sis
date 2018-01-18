@@ -1,0 +1,136 @@
+<div class="profile-section">
+
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewPatentsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Patents</h5>
+    <a class="add-task-btn" data-target="#patentSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+      ng-click="setEnvironmentAddSectionItem('patent')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Patent </span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewPatentsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="pat in studentRecord.patent">
+        <div class="col-sm-6 padded-b  padded-t b-b b-r" ng-hide="(editable['patent'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('patent', pat.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#patentSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('patent', true, pat.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <div>
+            <h5 class="title">{{pat.patentTitle}} </h5>
+            <ul class="list">
+              <li>{{pat.patentReferenceNo}}</li>
+              <li> {{pat.patentStatus}} </li>
+              <li> {{pat.patentNo}} </li>
+              <li> Filed on {{pat.filingDate}}, Issued On {{pat.issueDate}}</li>
+              <li> {{pat.patentDescription}} </li>
+              <li>
+                <label>Patent Certificate:</label>
+                <span class="tags" ng-repeat="file in pat.patentDocument" ng-if="(pat.patentDocument.length > 0)">
+
+                  <a class="tag" ng-click="openAttachedFile('patent', pat.itemIndex, 'patentDocument', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+                </span>
+                <span ng-if="(pat.patentDocument.length == 0)">
+                  <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Start Patents Add/Edit Section-->
+
+  <div id="patentSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('patent', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"> Add/ Edit Patent</h4>
+        </div>
+        <div class="modal-body">
+          <form name="patentInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="patentTitle" class="required">Title of the Patent</label>
+                <input id="patentTitle" name="patentTitle" ng-model="recordToUpdate.patent.patentTitle" class="form-control" type="text"
+                  required>
+              </div>
+              <div class="col-sm-4">
+                <label for="patentReferenceNo" class="required">Reference Number</label>
+                <input id="patentReferenceNo" name="patentReferenceNo" ng-model="recordToUpdate.patent.patentReferenceNo" class="form-control"
+                  type="text" required>
+              </div>
+              <div class="col-sm-4">
+                <label for="patentStatus" class="required">Patent Status</label>
+                <select class="form-control" data-js-select2 id="patentStatus" name="patentStatus" select-options="p in patentStatus" select-selection="recordToUpdate.patent.patentStatus"
+                  required>
+
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="patentNo" class="required">Country Patent Number</label>
+                <input id="patentNo" name="patentNo" ng-model="recordToUpdate.patent.patentNo" class="form-control" type="text" required>
+              </div>
+              <div class="col-sm-4">
+                <label for="filingDate" class="required">Date of Filing</label>
+
+                <input class="form-control" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.patent.filingDate" type="text" id="filingDate"
+                  data-date-format="dd/M/yyyy" placeholder="From" required>
+              </div>
+              <div class="col-sm-4">
+                <label for="issueDate" class="required">Date of Issue</label>
+                <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.patent.issueDate" type="text"
+                  id="issueDate" data-date-format="dd/M/yyyy" placeholder="To">
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentDesc" class="required">Patent Description</label>
+                <textarea id="studentDesc" ng-model="recordToUpdate.patent.patentDescription" class="form-control stdTextarea" required></textarea>
+              </div>
+              <div class="col-sm-4" "editable['patent']">
+                <label for="patentDocument">Patent Certificate</label>
+                <div ng-if="(recordToUpdate.patent.patentDocument.length > 0)" class="tags" ng-repeat="file in recordToUpdate.patent.patentDocument">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'patentDocument')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.patent.patentDocument.length == 0) || (patentDocument['dupeMaxFiles'])) && notToggle" id="patentDocument"
+                  ng-click="captureFieldName('patentDocument')" class="dropzone" options="fileAttachment['patentDocument'].dzOptions"
+                  callbacks="fileAttachment['patentDocument'].dzCallbacks" methods="fileAttachment['patentDocument'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('patent', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('patent', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

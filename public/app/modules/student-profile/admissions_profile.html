@@ -1,0 +1,163 @@
+<div class="profile-section">
+                  <!--START - profile-sections HEADER-->
+                  <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewAdmissionsInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+                    <h5 class="profile-sections-header">Admissions</h5>
+                    <a class="pull-right" ng-show="false" ng-click="edit('admissions', true)"><i class="icon-pencil7"></i></a>
+                  </div>
+                  <!--END - profile-sections HEADER-->
+                  <div id="viewAdmissionsInfo" ng-hide="editable['admissions']" class="collapse in">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <ul class="labelvalue">                          
+                          <li>
+                            <p> <span> Application Number</span>{{studentRecord.admissions.appFormNo}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Admitted Batch</span>{{studentRecord.admissions.batch}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Cutoff</span>{{studentRecord.admissions.residentialStatus}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Stream (Acad/Voc) </span> {{studentRecord.admissions.stream}} </p>
+                          </li>
+                          <li>
+                            <p> <span> Board / University </span> {{studentRecord.admissions.board}} </p>
+                          </li>
+                          <li>
+                            <p> <span> Sports Person? </span> {{studentRecord.admissions.sportsPerson}} </p>
+                          </li>
+                          <li>
+                            <p> <span> Defence Person? </span>{{studentRecord.admissions.defencePerson}}</p>
+                          </li>
+                          <li>
+                              <p> <span> First Degree holder of the Family? </span>{{studentRecord.admissions.firstDegreeHolder}}</p>
+                            </li>
+                        </ul>
+                      </div>
+                      <div class="col-sm-6">
+                        <ul class="labelvalue">
+                          <li>
+                            <p> <span> Enrollment Date</span>{{studentRecord.admissions.enrollmentDate}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Section</span>{{studentRecord.admissions.section}} </p>
+                          </li>
+                          <li>
+                            <p> <span> Percentage</span>{{studentRecord.admissions.percentage}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Qualifying Exam</span>{{studentRecord.admissions.qualifyingExam}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Admitted Quota</span>{{studentRecord.admissions.quota}}</p>
+                          </li>
+                          <li>
+                            <p> <span> Differently Abled?</span>{{studentRecord.admissions.differentlyAbled}}</p>
+                          </li>
+                          <li>
+                            <p> <span> NCC?</span>{{studentRecord.admissions.NCC}}</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Start Admissions Details Add/Edit Section-->
+                  <form id="editAdmissionsInfo" ng-show="false" name="admissionsInfo">
+                    <div class="row form-group">
+                       <div class="col-sm-4">
+                        <label for="studentBatch" class="required">Batch</label>
+                        <input data-js-datepicker id="studentBatch"  readonly required ng-Model="recordToUpdate.admissions.yearOfPassing" class="form-control" type="text"
+                          data-date-format="yyyy" />
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentSection" class="required">Section</label>
+                        <input id="studentSection"  readonly required ng-Model="recordToUpdate.admissions.section" class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-sm-4">
+                        <label for="studentProgram" class="required">Program</label>
+                        <select class="form-control" data-js-select2  readonly id="studentProgram" name="studentProgram" required placeholder=""
+                         select-selection="recordToUpdate.admissions.programName" select-options="program in programs">                          
+                         <option value="" disabled selected></option>                                       
+                         </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentCourse">Branch</label>
+                        <select class="form-control" data-js-select2 readonly id="studentBranch" name="studentBranch" required placeholder="" 
+                        select-selection="recordToUpdate.admissions.branchName" select-options="branch in branches">                          
+                        <option value="" disabled selected></option>                                      
+                         </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentTutor" class="required">Tutor</label>
+                        <input id="studentTutor"  readonly required ng-Model="recordToUpdate.admissions.tutor" class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-sm-4">
+                        <label for="studentRep" class="required">Name of Class Representative</label>
+                        <input id="studentRep"  readonly required ng-Model="recordToUpdate.admissions.classRepresentative" class="form-control" type="text">
+                      </div>
+                      <div class="col-sm-4">
+                        <label required class="required">Residential Status</label>
+                        <br>
+                        <label class="css-input css-radio css-radio-primary m-r-20" for="studentResidentStatus1" >
+                        <input name="residentstatus"  readonly value= "Hosteler" id="studentResidentStatus1"  checked="checked" ng-model= "recordToUpdate.admissions.residentialStatus" type="radio"/>
+                            <span></span> Hosteler </label>
+                        <label class="css-input css-radio css-radio-primary" for="studentResidentStatus2" ng-init="recordToUpdate.admissions.residentialStatus= 'Day-Scholar'">
+                        <input name="residentstatus"  readonly value = "Day-Scholar" id="studentResidentStatus2"  ng-model= "recordToUpdate.admissions.residentialStatus" type="radio"/>
+                            <span></span> Day-Scholar </label>
+                      </div>
+                      <div class="col-sm-4" ng-if="recordToUpdate.admissions.residentialStatus == 'Hosteler'">
+                        <label for="studentHostelRoomNo" class="">Hostel Room Number</label>
+                        <input id="studentHostelRoomNo" readonly required ng-model="recordToUpdate.admissions.hostelRoomNo" class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-sm-4">
+                        <label for="studentCurrentSemester" class="required">Current Semester</label>
+                        <input id="studentCurrentSemester" readonly required ng-model="recordToUpdate.admissions.semesterNo" class="form-control" type="text">
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentCurrentCGPA">Current CGPA</label>
+                        <input id="studentCurrentCGPA" readonly  required ng-model="recordToUpdate.admissions.cgpa" class="form-control" type="text">
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentAdmitMode" class="required">Admitted Mode</label>
+                        <select class="form-control" data-js-select2  readonly required name="studentAdmitMode"
+                        select-options="m in admittedModes" select-selection="recordToUpdate.admissions.admittedMode">      
+                        <option value="" disabled selected></option>                                      
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-sm-4">
+                        <label for="studentApplicationNo">Application Number</label>
+                        <input id="studentApplicationNo"  readonly required ng-model="recordToUpdate.admissions.appFormNo" class="form-control" type="text">
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentStream" class="required">Stream</label>
+                        <select class="form-control" data-js-select2 readonly  required id="studentStream" name="studentStream"
+                        select-options="s in streams" select-selection="recordToUpdate.admissions.stream">     
+                        <option value="" disabled selected></option>                                      
+                         </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <label for="studentReservationQuota" class="required">Reservation Category</label>
+                        <select class="form-control" data-js-select2  readonly id="studentReservationQuota" name="studentReservationQuota"
+                          select-options="q in quotas" select-selection="recordToUpdate.admissions.quota">   
+                          <option value="" disabled selected></option>                                        
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row form-group pull-right">
+                      <div class="col-sm-12">
+                        <button class="btn btn-secondary m-r-10" ng-click="edit('admissions', false)" type="submit">Discard Changes</button>
+                        <button class="btn btn-primary" ng-click="saveSection('admissions', 0)" ng-disabled="admissionsInfo.$invalid" type="submit">Save Changes</button>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>

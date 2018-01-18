@@ -1,0 +1,36 @@
+<div class="profile-section">
+        <!--START - profile-sections HEADER-->
+        <div class="profile-sections-header-w"> <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewTechnicalSkillsInfo" href="javascript:void(0)"><i class="icon-menu-open"></i></a>
+          <h5 class="profile-sections-header">Technical Skills/Proficiencies</h5>
+          <a class="pull-right" ng-show="studentRecord.technicalSkills"  ng-click="edit('technicalSkills', true)"><i class="icon-pencil7"></i></a>
+          <a class="pull-right add-task-btn" ng-show="!studentRecord.technicalSkills"  ng-click="edit('technicalSkills', true)"><i class="icon-plus-circle2"></i><span>Add Technical Skills</span></a>
+          
+        </div>
+        <!--END - profile-sections HEADER-->
+        <div id="viewTechnicalSkillsInfo" ng-hide="editable['technicalSkills']" class="collapse in">
+          <div class="row padded-b">
+            <div class="col-sm-12">
+              <span class="badge badge-amethyst badge-lg push-5-r" ng-repeat="technicalSkill in studentRecord.technicalSkills"> {{technicalSkill}} </span>
+            </div>
+          </div>
+        </div>
+
+        <form id="editTechnicalSkillsInfo" ng-show="editable['technicalSkills']" name="editTechnicalSkillsInfo">
+          <div class=" row form-group">
+            <label class="col-md-4 control-label" for="example-select2-multiple">Technical Skills</label>
+            <div class="col-md-8">
+              <select data-js-select2 class="form-control" select-selection="recordToUpdate.technicalSkills" data-placeholder="Choose/Enter Technical proficiencies"
+                select-options="technicalSkill in technicalSkills" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="technicalSkills" multiple>
+                      <option value="" disabled></option>
+                      </select>
+            </div>
+          </div>
+          <div class="row form-group pull-right">
+            <div class="col-sm-12">
+              <button class="btn btn-secondary m-r-10" ng-click="edit('technicalSkills', false)" type="submit">Discard Changes</button>
+              <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('technicalSkills', 0)" type="submit">Save Changes</button>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+      </div>

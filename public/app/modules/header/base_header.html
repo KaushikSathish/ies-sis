@@ -1,0 +1,167 @@
+<header id="header-navbar" class="content-mini content-mini-full">
+
+  <ul class="nav-header pull-right">
+    <li>
+      <div class="btn-group dropdown-user">
+        <button class="btn btn-link text-white dropdown-toggle" data-toggle="dropdown" type="button"> <img ng-src="img/{{Auth.tokenParsed.preferred_username.toUpperCase()}}.JPG" alt="{{Auth.tokenParsed.name}}"> </button>
+        <ul class="dropdown-menu dropdown-menu-right sidebar-mini-hide font-s13">
+            <li><a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)">{{Auth.tokenParsed.name}}</a></li>
+            <li class="divider"></li>
+          <li><a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)" ng-click="viewMyAccount()"> <i class="icon-user-plus"></i>  My profile</a></li>
+          <!-- <li><a data-toggle="theme" data-theme="default" tabindex="-1" href="javascript:void(0)"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li> -->
+          <li class="divider"></li>
+          <!--<li><a href="javascript:void(0)"><i class="icon-cog5"></i> Account settings</a></li>-->
+          <li><a href="javascript:void(0)" ng-click="logout()"><i class="icon-switch2"></i> Logout</a></li>
+        </ul>
+      </div>
+    </li>
+    <!-- <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="mdi mdi-menu"></i></a>      </li> -->
+   </ul>
+ 
+  <div class="menu-top">
+      <div class="navbar-header">
+        <button type="button" data-toggle="collapse" data-target="#navbar-collapse-2" class="navbar-toggle"><i class="fa fa-navicon"></i></button>
+        <a href="#" class="navbar-brand"><img src="/img/logo.png" alt=""/></a> 
+      </div>
+      <div id="navbar-collapse-2" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+         <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class=" icon-graduation2 prefix"></i>Student Administration<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu clearfix">
+                  <ul class="col-lg-12 link-list">
+                    <li><a ng-show="Auth && (Auth.hasResourceRole('PLACEMENT_OFFICE'))" data-ui-sref="students" data-ui-sref-active="active"><i class="fa fa-arrow-circle-right"></i>Students</a></li>
+                    <!-- <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Student Records</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Debar</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Hostel</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Fee Payments</a></li> -->
+                 </ul> 
+                </div>
+              </li>
+            </ul>
+          </li>
+          
+        
+          
+          
+          
+          
+        <!-- <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-gear prefix"></i>Student Services<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu clearfix">
+                  <ul class="col-lg-6 col-md-6 col-xs-12 link-list">
+                    <li class="title">Certificate Requisition</li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Bonafide</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Address Authentication</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Conduct</a></li>
+                  </ul>
+                  <ul class="col-lg-6 col-md-6 col-xs-12 link-list">
+                    <li class="push-50-t"><a href="#"><i class="fa fa-arrow-circle-right"></i>ID Card</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Transfer Certificate</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Convocation</a></li>
+                     <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Pay Fees</a></li>
+                  </ul>
+                
+                </div>
+              </li>
+            </ul>
+          </li> -->
+          <!-- <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-stack-empty prefix"></i>Registrations<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu clearfix">
+                  <ul class="col-lg-12 link-list">
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>UG Aided</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>UG Self Financed</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>PG Aided</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>PG Self Financed</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class=" icon-graduation2 prefix"></i>Admissions<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu clearfix">
+                  <ul class="col-lg-12 link-list">
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Ranking</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Selection List</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Call for List</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-credit-card prefix"></i>Payments & Refunds<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu clearfix">
+                  <ul class="col-lg-12 link-list">
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Accept Payment</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Issue Refund</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-file-spreadsheet prefix"></i>Reports<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu clearfix">
+                  <ul class="col-lg-4 col-md-4 col-xs-12 link-list">
+                    <li class="title">Enrollment Reports</li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>All Enrollments</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>All Dropouts</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Genderwise</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Genderwise (Sectionwise)</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Citywise</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Statewise</a></li>
+                  </ul>
+                  <ul class="col-lg-4 col-md-4 col-xs-12 link-list">
+                    <li class="title">Fees Reports</li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Coursewise</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Userwise</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Pending Fee Payment</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Fee Collection Abstract</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Fee Structure Abstract</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Fee Recepit</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>Coursewise Fee Collection Summary</a></li>
+                  </ul>
+                  <ul class="col-lg-4 col-md-4 col-xs-12 link-list">
+                    <li class="title">Fee Collection & Refunds</li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>All Receipts</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>All Receipts by Course</a></li>
+                    <li><a href="#"><i class="fa fa-arrow-circle-right"></i>All Refunds</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="icon-search4 prefix"></i>Search<i class=" icon-arrow-down12"></i></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="menu-top-content megamenu">
+                  <div class="col-lg-12 col-sm-12">
+                    <h3 class="title">Global Search</h3>
+                    <p>Search across all courses by Application Form Number, Course Registration Number, <br>
+                      +2 Registration Number, Dummy Roll Number, Contact Number, Email ID<br>
+                      or Name (Partial Match)</p>
+                    <form name="search_form" class="menu_form">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search across all courses">
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span> </div>
+                    </form>
+                    <div class="cl"></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>-->
+        </ul> 
+      </div>
+    </div>
+</header>

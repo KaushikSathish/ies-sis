@@ -1,0 +1,151 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewValue Addition CoursesInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Value Added Courses</h5>
+    <a class="add-task-btn" data-target="#valueAdditionSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+      ng-click="setEnvironmentAddSectionItem('valueAddition')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Value Added Course </span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewValueAddedCoursesInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="ValueAdd in studentRecord.valueAddition">
+        <div class="col-sm-6 padded-b  padded-t b-b b-r" ng-hide="(editable['valueAddition'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('valueAddition', ValueAdd.itemIndex)" class="floating-hyperlink push-5-r js-swal-confirm btn btn-default"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#valueAdditionSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal" class="floating-hyperlink push-5-r btn btn-default"
+              ng-click="setEnvironmentForEditItem('valueAddition', true, ValueAdd.itemIndex, 0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{ValueAdd.courseName}} </h5>
+          <ul class="list">
+            <li>{{ValueAdd.courseCode}}, {{ValueAdd.courseCredit}} Credit Course</li>
+            <li> {{ValueAdd.courseHours}} Hours Course </li>
+            <li> {{ValueAdd.courseStartDate}} - {{ValueAdd.courseEndDate}}</li>
+            <li> {{ValueAdd.courseCoordinator}} </li>
+            <li> {{ValueAdd.courseOrganizingBody}} </li>
+            <li> {{ValueAdd.valueAdditionDescription}} </li>
+            <li>
+              <label>Completion Certificate:</label>
+              <span class="tags" ng-repeat="file in ValueAdd.valueAdditionCert" ng-if="(ValueAdd.valueAdditionCert.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('valueAddition', ValueAdd.itemIndex, 'valueAdditionCert', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(ValueAdd.valueAdditionCert.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Start Value Addition Courses Add/Edit Section-->
+
+  <div id="valueAdditionSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('valueAddition', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"> Add/ Edit Value Added Course</h4>
+        </div>
+        <div class="modal-body">
+          <form name="valueAdditionInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="courseName" class="required"> Course Name</label>
+                <input id="courseName" name="courseName" ng-model="recordToUpdate.valueAddition.courseName" class="form-control" type="text"
+                  required>
+              </div>
+              <div class="col-sm-4">
+                <label for="courseCode" class="required">Course Code</label>
+                <input id="courseCode" name="courseCode" ng-model="recordToUpdate.valueAddition.courseCode" class="form-control" type="text"
+                  required>
+              </div>
+              <div class="col-sm-4">
+                <label for="courseCredit" class="required">Course Credit</label>
+                <input id="courseCredit" name="courseCredit" ng-model="recordToUpdate.valueAddition.courseCredit" class="form-control" type="text"
+                  required>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="courseHours" class="required">Course Hours</label>
+                <input id="courseHours" name="courseHours" ng-model="recordToUpdate.valueAddition.courseHours" class="form-control" type="text"
+                  required>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentDuration" class="required">Course Duration</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input class="form-control" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.valueAddition.courseStartDate" type="text"
+                      id="valueAdditionCourseStartDate" data-date-format="dd/M/yyyy" placeholder="From" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <input class="form-control custom-datepicker" data-js-datepicker datepicker-date="recordToUpdate.valueAddition.courseEndDate"
+                      type="text" id="valueAdditionCourseEndDate" data-date-format="dd/M/yyyy" placeholder="To">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <label for="courseCoordinator" class="required">Course Coordinator</label>
+                <input id="courseCoordinator" name="courseCoordinator" ng-model="recordToUpdate.valueAddition.courseCoordinator" class="form-control"
+                  type="text" required>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="courseGrade" class="required">Course Grade/Score</label>
+                <input id="courseGrade" name="courseGrade" ng-model="recordToUpdate.valueAddition.courseGrade" class="form-control"
+                  type="text" required>
+              </div>
+              <div class="col-sm-4">
+                <label for="courseInstitutionName" class="required">Institution Name</label>
+                <input id="courseInstitutionName" name="courseInstitutionName" ng-model="recordToUpdate.valueAddition.courseInstitutionName" class="form-control"
+                  type="text" required>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentDesc" class="required"> Course Description</label>
+                <textarea id="studentDesc" ng-model="recordToUpdate.valueAddition.valueAdditionDescription" class="form-control stdTextarea"
+                  required></textarea>
+              </div>
+              <div class="col-sm-4" ng-if="editable['valueAddition']">
+                <label for="valueAdditionCert">Value Added Course Certificate</label>
+                <div ng-if="(recordToUpdate.valueAddition.valueAdditionCert.length > 0)" class="tags" ng-repeat="file in recordToUpdate.valueAddition.valueAdditionCert">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'valueAdditionCert')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.valueAddition.valueAdditionCert.length == 0) || (valueAdditionCert['dupeMaxFiles'])) && notToggle"
+                  id="valueAdditionCert" ng-click="captureFieldName('valueAdditionCert')" class="dropzone" options="fileAttachment['valueAdditionCert'].dzOptions"
+                  callbacks="fileAttachment['valueAdditionCert'].dzCallbacks" methods="fileAttachment['valueAdditionCert'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('valueAddition', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('valueAddition', 0)" data-dismiss="modal" 
+            type="submit">Save Changes</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

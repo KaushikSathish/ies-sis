@@ -1,0 +1,178 @@
+<div class="profile-section">
+    <!--START - profile-sections HEADER-->
+    <div class="profile-sections-header-w">
+        <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewEducationInfo" href="javascript:void(0)">
+            <i class="icon-menu-open"></i>
+        </a>
+        <h5 class="profile-sections-header">Education</h5>
+        <!-- <a ng-hide="editable['education']" class="pull-right" ng-click="edit('education', true)"><i class="icon-pencil7"></i></a> -->
+        <a class="add-task-btn" data-target="#educationSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+            ng-click="setEnvironmentAddSectionItem('education')">
+            <i class="icon-plus-circle2"></i>
+            <span>Add Education</span>
+        </a>
+    </div>
+    <!--END - profile-sections HEADER-->
+    <div id="viewEducationInfo" class="collapse in">
+        <div class="row jobs-item with-thumb">
+            <div ng-repeat="edu in studentRecord.education">
+                <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['education'] && (editableSectionIndex == $index))">
+                    <div class="pull-right">                         
+                        <a ng-click="setEnvironmentDeleteOnConfirmation('education', edu.itemIndex)" class="floating-hyperlink js-swal-confirm"
+                            type="button" data-js-block-option>
+                            <i class="icon-trash"></i>
+                        </a>
+                        <a data-target="#educationSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="push-5-r floating-hyperlink btn btn-default"
+                            ng-click="setEnvironmentForEditItem('education', true, edu.itemIndex, 0)">
+                            <i class="icon-pencil7"></i>
+                        </a>                    
+                    </div>
+                    <h5 class="title">{{edu.qualificationType}} </h5>
+                    <ul class="list">
+                        <li>{{edu.qualificationTitle}} {{edu.studentBranch}}</li>
+                        <li> {{edu.studentMarks}} out of {{edu.maxMarks}} </li>
+                        <li> {{edu.institutionName}}, {{edu.schoolLocation}}</li>
+                        <li ng-hide="edu.institutionName.toLowerCase() == edu.boardVarsity.toLowerCase()"> {{edu.boardVarsity}} </li>
+                        <br ng-hide="edu.institutionName.toLowerCase() == edu.boardVarsity.toLowerCase()">
+                        <li>{{edu.yearOfPassing}}</li>
+                        <li>
+                            <label>Mark Sheet</label>
+                            <span class="tags" ng-repeat="file in edu.markSheet" ng-if="(edu.markSheet.length > 0)">
+                                <a class="tag" ng-click="openAttachedFile('education', edu.itemIndex, 'markSheet', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+                            </span>
+                            <span ng-if="(edu.markSheet.length == 0)">
+                                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+                            </span>
+                        </li>
+                        <li>
+                            <label>Degree Certificate</label>
+                            <span class="tags" ng-repeat="file in edu.degreeCertificate" ng-if="(edu.degreeCertificate.length > 0)">
+                                <a class="tag" ng-click="openAttachedFile('education', edu.itemIndex, 'degreeCertificate', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+                            </span>
+                            <span ng-if="(edu.degreeCertificate.length == 0)">
+                                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Start Work Experience Add/Edit Section-->
+    <div id="educationSectionItemModal" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="edit('education', false)" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add/ Edit Education </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editEducationInfo" ng-show="editable['education']" name="educationInfo">
+                        <div class="row form-group">
+                            <div class="col-sm-4">
+                                <label for="qualificationType" class="required">Qualification Type</label>
+                                <select class="form-control" required data-js-select2 id="qualificationType" name="qualificationType" select-selection="recordToUpdate.education.qualificationType"
+                                    data-placeholder="Please Select Qualification type" select-options="qualificationType in qualificationTypes">
+                                    <option value="" disabled selected></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="qualificationTitle">Qualification Title/ Degree</label>
+                                <input id="qualificationTitle" ng-disabled="recordToUpdate.education.qualificationType ==='10th'|| recordToUpdate.education.qualificationType ==='12th'"
+                                    ng-model="recordToUpdate.education.qualificationTitle" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="studentDegree">Group/ Specialization</label>
+                                <input id="studentDegree" ng-disabled="recordToUpdate.education.qualificationType ==='10th'" ng-model="recordToUpdate.education.studentBranch"
+                                    class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-4 inner-split">
+                                <div class="col-sm-6">
+                                    <label for="studentMarks">Marks Obtained</label>
+                                    <input id="studentMarks" ng-model="recordToUpdate.education.studentMarks" class="form-control" type="text">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="maxMarks">Maximum Marks</label>
+                                    <input id="maxMarks" ng-model="recordToUpdate.education.maxMarks" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <!--<div class="col-sm-4">
+                    <label for="studentAward">Rank/ Proficiency/ Award </label>
+                    <input id="studentAward" ng-model="recordToUpdate.education.studentAward" class="form-control" type="text">
+                </div>-->
+                            <div class="col-sm-4">
+                                <label for="yearOfPassing" class="required">Year of Passing</label>
+                                <input class="form-control custom-datepicker" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.education.yearOfPassing" type="text"
+                                id="yearOfPassing" name="yearOfPassing" data-date-format="dd/M/yyyy">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="institutionName">Institution Name</label>
+                                <input id="institutionName" ng-model="recordToUpdate.education.institutionName" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-4">
+                                <label for="boardVarsity" class="required">Board/ University</label>
+                                <select class="form-control" required data-js-select2 id="boardVarsity" name="boardVarsity" select-selection="recordToUpdate.education.boardVarsity"
+                                    data-placeholder="Select Board/ University" select-options="board in boards" select-add-item="true"
+                                    select-add-callback="addNewItemToLookup" select-lookup-name="boards">
+                                    <option value="" disabled selected></option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="studentSchoolLocation" class="required">Location </label>
+                                <select class="form-control custom-select2" required data-js-select2 data-placeholder="Select/Enter City" id="city" name="city"
+                                    select-selection="recordToUpdate.education.schoolLocation" select-options="city in cities"
+                                    select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities"
+                                    required>
+                                    <option value="" disabled selected></option>
+                                    <!-- <option ng-value="0">Others</option> -->
+                                </select>
+
+                                <!--<input id="studentSchoolLocation" ng-model="recordToUpdate.education.schoolLocation" class="form-control" type="text">-->
+                            </div>
+
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-6" ng-if="editable['education']">
+                                <label for="markSheet">Mark Sheet</label>
+                                <div ng-if="(recordToUpdate.education.markSheet.length > 0)" class="tags" ng-repeat="file in recordToUpdate.education.markSheet">
+                                    <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                                        <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'markSheet')"></i>
+                                    </a>
+                                </div>
+
+                                <div ng-if="((recordToUpdate.education.markSheet.length == 0) || (markSheet['dupeMaxFiles'])) && notToggle" id="markSheet"
+                                    ng-click="captureFieldName('markSheet')" class="dropzone" options="fileAttachment['markSheet'].dzOptions"
+                                    callbacks="fileAttachment['markSheet'].dzCallbacks" methods="fileAttachment['markSheet'].dzMethods"
+                                    ng-dropzone></div>
+                            </div>
+                            <div class="col-sm-6" ng-if="editable['education']">
+                                <label for="degreeCertificate">Degree Certificate</label>
+                                <div ng-if="(recordToUpdate.education.degreeCertificate.length > 0)" class="tags" ng-repeat="file in recordToUpdate.education.degreeCertificate">
+                                    <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                                        <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'degreeCertificate')"></i>
+                                    </a>
+                                </div>
+
+                                <div ng-if="((recordToUpdate.education.degreeCertificate.length == 0) || (degreeCertificate['dupeMaxFiles'])) && notToggle"
+                                    id="degreeCertificate" ng-click="captureFieldName('degreeCertificate')" class="dropzone"
+                                    options="fileAttachment['degreeCertificate'].dzOptions" callbacks="fileAttachment['degreeCertificate'].dzCallbacks"
+                                    methods="fileAttachment['degreeCertificate'].dzMethods" ng-dropzone></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary m-r-10" ng-click="edit('education', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+                    <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('education', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+    <!--End Work Education Add/Edit Section-->
+</div>

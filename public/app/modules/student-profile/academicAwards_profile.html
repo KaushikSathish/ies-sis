@@ -1,0 +1,124 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewAcademicAwardsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Academic Awards</h5>
+    <a class="add-task-btn" data-target="#academicAwardSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('academicAwards')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Academic Award</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewAcademicAwardsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="award in studentRecord.academicAwards">
+        <div class="col-sm-6 padded-b  padded-t b-b b-r" ng-hide="(editable['academicAwards'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('academicAwards', award.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#academicAwardSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('academicAwards', true, award.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+
+          </div>
+          <h5 class="title">{{award.academicAwardName}} </h5>
+          <ul class="list">
+            <li>{{award.academicAwardAuthority}}</li>
+            <li> {{award.academicAwardDate}} </li>
+            <li>{{award.academicAwardLevel}} </li>
+            <li> {{award.academicAwardDescription}} </li>
+            <li>
+              <label>Award Certificate:</label>
+              <span class="tags" ng-repeat="file in award.awardCertificate" ng-if="(award.awardCertificate.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('academicAwards', award.itemIndex, 'awardCertificate', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(award.awardCertificate.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="academicAwardSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('academicAwards', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Academic Award</h4>
+        </div>
+        <div class="modal-body">
+          <form id="editAcademicAwardsInfo" name="academicAwardInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="academicAwardName" class="required">Name of the Award</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Award " id="academicAwardName" name="academicAwardName"
+                  select-selection="recordToUpdate.academicAwards.academicAwardName" select-options="award in awards" select-others="true">
+                  <option value="" disabled selected></option>
+                </select>
+
+                <input id="academicAwardNameOther" name="academicAwardNameOther" placeholder="Please specify" ng-model="recordToUpdate.academicAwards.academicAwardNameOther"
+                  class="form-control" type="text" ng-show="recordToUpdate.academicAwards.academicAwardName == 'OTHERS'" />
+              </div>
+
+              <div class="col-sm-4">
+                <label for="studentAcademicAwardsDate" class="required"> Year of Award</label>
+                <input class="form-control custom-datepicker" data-date-end-date="0d" data-js-datepicker datepicker-date="recordToUpdate.academicAwards.academicAwardDate"
+                  type="text" id="studentAcademicAwardsDate" data-date-format="dd/M/yyyy" placeholder="Published date">
+              </div>
+              <div class="col-sm-4">
+                <label for="AcademicAwardAuthority" class="required">Name of the Awarding Authority/Institution</label>
+                <input id="AcademicAwardAuthority" required ng-model="recordToUpdate.academicAwards.academicAwardAuthority" class="form-control"
+                  type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentAcademicAwardlevel" class="required">Award Level</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Award Level" id="studentAcademicAwardlevel" name="eventType"
+                  select-selection="recordToUpdate.academicAwards.academicAwardLevel" select-options="Type in eventTypes">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4" ng-if="editable['academicAwards']">
+                <label for="awardCertificate">Award Certificate</label>
+                <div ng-if="(recordToUpdate.academicAwards.awardCertificate.length > 0)" class="tags" ng-repeat="file in recordToUpdate.academicAwards.awardCertificate">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'awardCertificate')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.academicAwards.awardCertificate.length == 0) || (awardCertificate['dupeMaxFiles'])) && notToggle"
+                  id="awardCertificate" ng-click="captureFieldName('awardCertificate')" class="dropzone" options="fileAttachment['awardCertificate'].dzOptions"
+                  callbacks="fileAttachment['awardCertificate'].dzCallbacks" methods="fileAttachment['awardCertificate'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-12">
+                <label for="studentAcademicAwardsDesp">Description</label>
+                <textarea id="studentAcademicAwardsDesp" ng-model="recordToUpdate.academicAwards.academicAwardDescription" class="form-control stdTextarea"
+                  type="text"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('academicAwards', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('academicAwards', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

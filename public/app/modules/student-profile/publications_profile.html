@@ -1,0 +1,220 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewPublicationsInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header"> Papers Presented / Published </h5>
+    <a class="add-task-btn" data-target="#publicationSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal"
+      ng-click="setEnvironmentAddSectionItem('publications')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Publication</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewPublicationsInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="publication in studentRecord.publications">
+        <div class="col-sm-6 padded-b  padded-t b-b b-r" ng-hide="(editable['publications'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('publications', publication.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+            <a data-backdrop="static" data-keyboard="false" data-target="#publicationSectionItemModal" data-toggle="modal" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('publications', true, publication.itemIndex, 0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{publication.paperTitle}}</h5>
+          <ul class="list">
+            <li ng-show="publication.publishedSource == 'Conference'">{{publication.conferenceTitle}}</li>
+            <li ng-show="(publication.publishedSource == 'Citation Journals') || (publication.publishedSource == 'Other Journals')">{{publication.journalTitle}}</li>
+            <li ng-show="publication.publishedSource == 'Conference'"> {{publication.conferenceDate}} - {{publication.conferenceBy}}, {{publication.conferenceVenue}} </li>
+            <li ng-show="(publication.publishedSource == 'Citation Journals') || (publication.publishedSource == 'Other Journals')"> {{publication.yearOfPublishing}} - Volume No.{{publication.volumeNo}}, Issue No.{{publication.issueNo}} </li>
+            <li>Page From {{publication.pageFrom}} - To {{publication.pageTo}} </li>
+            <li ng-repeat="author in publication.publicationAuthors">
+              {{author.name}} - {{author.designation}} - {{author.organization}} - {{author.email}}
+            </li>
+            <li>
+              <label>Abstract: </label> {{publication.publicationDescription}} </li>
+            <li>
+              <label>Paper/ Journal</label>
+              <span class="tags" ng-repeat="file in publication.paperPublished" ng-if="(publication.paperPublished.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('publications', publication.itemIndex, 'paperPublished', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(publication.paperPublished.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="publicationSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('publications', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add/ Edit Papers Presented/ Published </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editPublicationsInfo" name="publicationInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="publishedSource" class="required">Published Source</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Published Source" id="publishedSource" name="publishedSource"
+                  select-default="Conference" select-selection="recordToUpdate.publications.publishedSource" select-options="publishedSource in publishedSources">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="studentPaperTitle" class="required">Title of the Paper/Book/Article</label>
+                <input id="studentPaperTitle" required name="studentPaperTitle" ng-model="recordToUpdate.publications.paperTitle"
+                  class="form-control" type="text">
+              </div>
+              <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Conference'">
+                <label for="conferenceTitle">Conference Title</label>
+                <input id="conferenceTitle" name="conferenceTitle" ng-model="recordToUpdate.publications.conferenceTitle" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Books'">
+                  <label for="edition">Edition</label>
+                  <input id="edition" name="edition" ng-model="recordToUpdate.publications.edition" class="form-control"
+                    type="text">
+                </div>
+              <div class="col-sm-4" ng-show="(recordToUpdate.publications.publishedSource == 'Citation Journals') || (recordToUpdate.publications.publishedSource == 'Other Journals')">
+                <label for="journalTitle">Journal Title</label>
+                <input id="journalTitle" ng-model="recordToUpdate.publications.journalTitle" class="form-control" type="text">
+              </div>
+
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Conference' || recordToUpdate.publications.publishedSource == 'Conference'">
+                <label for="proceedingNo">Proceeding Number (ISBN Number)</label>
+                <input id="proceedingNo" name="proceedingNo" ng-model="recordToUpdate.publications.proceedingNo" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4 inner-split" ng-show="(recordToUpdate.publications.publishedSource == 'Citation Journals') || (recordToUpdate.publications.publishedSource == 'Other Journals')">
+                <div class="col-sm-6">
+                  <label for="volumeNo">Volume No.</label>
+                  <input id="volumeNo" name="volumeNo" ng-model="recordToUpdate.publications.volumeNo" class="form-control" type="text">
+                </div>
+                <div class="col-sm-6">
+                  <label for="issueNo">Issue No.</label>
+                  <input id="issueNo" name="issueNo" ng-model="recordToUpdate.publications.issueNo" class="form-control" type="text">
+                </div>
+              </div>
+              <div class="col-sm-4 inner-split" ng-show="recordToUpdate.publications.publishedSource != 'Books'">
+                <div class="col-sm-6">
+                  <label for="pageFrom">Page From </label>
+                  <input id="pageFrom" name="pageFrom" ng-model="recordToUpdate.publications.pageFrom" class="form-control" type="text">
+                </div>
+                <div class="col-sm-6">
+                  <label for="pageTo"> To</label>
+                  <input id="pageTo" name="pageTo" ng-model="recordToUpdate.publications.pageTo" class="form-control" type="text">
+                </div>
+              </div>
+              <div class="col-sm-4" ng-show="(recordToUpdate.publications.publishedSource == 'Books')">
+                  <label for="chapterNo">Chapter No.</label>
+                  <input id="chapterNo" name="chapterNo" ng-model="recordToUpdate.publications.chapterNo" class="form-control" type="text">
+                </div>
+              <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Conference'">
+                <label for="conferenceDate">Conference Date</label>
+                <input id="conferenceDate" name="conferenceDate" data-date-end-date="0d" data-date-format="dd/M/yyyy" data-js-datepicker type="text" datepicker-date="recordToUpdate.publications.conferenceDate"
+                  class="form-control" type="text">
+              </div>
+              <div class="col-sm-4" ng-show="(recordToUpdate.publications.publishedSource == 'Citation Journals') || (recordToUpdate.publications.publishedSource == 'Other Journals')">
+                <label for="yearOfPublishing">Journal Published Date</label>
+                <input id="yearOfPublishing" name="yearOfPublishing" data-date-end-date="0d" data-date-format="dd/M/yyyy" data-js-datepicker type="text" datepicker-date="recordToUpdate.publications.yearOfPublishing"
+                  class="form-control" type="text">
+              </div>
+              <div class="col-sm-4" ng-show="(recordToUpdate.publications.publishedSource == 'Books')">
+                  <label for="yearOfPublishing">Book Published Date</label>
+                  <input id="yearOfPublishing" name="yearOfPublishing" data-date-end-date="0d" data-date-format="dd/M/yyyy" data-js-datepicker type="text" datepicker-date="recordToUpdate.publications.yearOfPublishing"
+                    class="form-control" type="text">
+                </div>
+                <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Books'">
+                    <label for="publishedBy">Published By</label>
+                    <input id="publishedBy" name="edition" ng-model="recordToUpdate.publications.publishedBy" class="form-control"
+                      type="text">
+                  </div>
+
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Conference'">
+                <label for="conferenceVenue">Conference Venue</label>
+                <input id="conferenceVenue" name="conferenceVenue" ng-model="recordToUpdate.publications.conferenceVenue" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-4" ng-show="recordToUpdate.publications.publishedSource == 'Conference'">
+                <label for="conferenceBy">Conducted By</label>
+                <input id="conferenceBy" name="conferenceBy" ng-model="recordToUpdate.publications.conferenceBy" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="numAuthors">Number of Authors</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Number of Authors" id="numAuthors" name="numAuthors"
+                  select-default="1" select-selection="recordToUpdate.publications.numAuthors" select-options="n in numAuthors">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4" ng-show="(recordToUpdate.publications.publishedSource == 'Citation Journals') || (recordToUpdate.publications.publishedSource == 'Other Journals')">
+                <label for="numCitations">Number of Citations</label>
+                <input id="numCitations" name="numCitations" ng-model="recordToUpdate.publications.numCitations" class="form-control" type="text">
+              </div>
+            </div>
+
+            <div class="row form-group" ng-repeat="author in recordToUpdate.publications.publicationAuthors">
+              <div class="col-sm-3">
+                <label for="publicationAuthorname{{$index}}" class="required">Author {{$index+1}} Name</label>
+                <input id="publicationAuthorname{{$index}}" name="publicationAuthorname{{$index}}" ng-model="author.name" class="form-control"
+                  type="text">
+              </div>
+              <div class="col-sm-3">
+                <label for="publicationAuthorDesignation{{$index}}" class="required">Author {{$index+1}} Designation</label>
+                <input id="publicationAuthorDesignation{{$index}}" name="publicationAuthorDesignation{{$index}}" ng-model="author.designation"
+                  class="form-control" type="text">
+              </div>
+              <div class="col-sm-3">
+                <label for="publicationAuthorOrganization{{$index}}" class="required">Author {{$index+1}} Organization</label>
+                <input id="publicationAuthorOrganization{{$index}}" name="publicationAuthorOrganization{{$index}}" ng-model="author.organization"
+                  class="form-control" type="text">
+              </div>
+              <div class="col-sm-3">
+                <label for="publicationAuthorEmail{{$index}}" class="required">Author {{$index+1}} Email</label>
+                <input id="publicationAuthorEmail{{$index}}" name="publicationAuthorEmail{{$index}}" ng-model="author.email" class="form-control"
+                  type="text">
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="publicationDescription" class="required">Abstract </label>
+                <textarea id="publicationDescription" required name="publicationDescription" ng-model="recordToUpdate.publications.publicationDescription"
+                  class="form-control stdTextarea" type="text"></textarea>
+              </div>
+              <div class="col-sm-4" "editable['publications']">
+                <label for="paperPublished">Paper/ Journal</label>
+                <div ng-if="(recordToUpdate.publications.paperPublished.length > 0)" class="tags" ng-repeat="file in recordToUpdate.publications.paperPublished">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'paperPublished')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.publications.paperPublished.length == 0) || (paperPublished['dupeMaxFiles'])) && notToggle"
+                  id="paperPublished" ng-click="captureFieldName('paperPublished')" class="dropzone" options="fileAttachment['paperPublished'].dzOptions"
+                  callbacks="fileAttachment['paperPublished'].dzCallbacks" methods="fileAttachment['paperPublished'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('publications', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('publications', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

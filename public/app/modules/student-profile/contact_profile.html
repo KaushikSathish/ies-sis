@@ -1,0 +1,131 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewContactInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Contact Information</h5>
+    <a class="pull-right  btn btn-default" ng-click="edit('contact', true)">
+      <i class="icon-pencil7"></i>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewContactInfo" ng-hide="editable['contact']" class="collapse in">
+    <div class="row">
+      <div class="col-sm-12">
+        <ul class="labelvalue">
+          <li>
+            <div class="col-sm-6">
+              <p>
+                <span>Permanent Address</span>
+                <div> {{studentRecord.contact.addressLine1}}
+                  <br/> {{studentRecord.contact.addressLine2}}
+                  <br/> {{studentRecord.contact.city}}
+                  <br/> {{studentRecord.contact.state}}
+                  <br/> {{studentRecord.contact.pincode}}
+                </div>
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p>
+                <span class="full-width">Communication Address</span>
+              </p>
+              <div>{{studentRecord.contact.commAddressLine1}}
+                <br/>{{studentRecord.contact.commAddressLine2}}
+                <br/> {{studentRecord.contact.commCity}}
+                <br/> {{studentRecord.contact.commState}}
+                <br/>{{studentRecord.contact.commPincode}}</div>
+            </div>
+          </li>
+          <li>
+            <p>
+              <span> Landline Number</span> {{studentRecord.contact.landlineNumber}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--Start ContactInfo Add/Edit Section-->
+  <div id="editContactInfo" ng-show="editable['contact']">
+    <form name="contactInfo">
+      <div class="row">
+        <div class="col-sm-4 displayFieldOneCol">
+          <label for="paddress" class="required">Permanent Address</label>
+          <input id="paddress1" name="paddress1" placeholder="Address Line 1" ng-model="recordToUpdate.contact.addressLine1" class="form-control"
+            type="text" required>
+          <input id="paddress2" name="paddress2" placeholder="Address Line 2" ng-model="recordToUpdate.contact.addressLine2" class="form-control"
+            type="text">
+          <select class="form-control custom-select2" data-js-select2 data-placeholder="Select/Enter City" id="city" name="city" select-selection="recordToUpdate.contact.city"
+            select-options="city in cities" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities"
+            required>
+            <option value="" disabled selected></option>
+          </select>
+
+          <!--<input id="pcity" name="pcity" placeholder="City" ng-model="recordToUpdate.contact.city" class="form-control" type="text"
+            required>-->
+          <select class="form-control custom-select2" data-js-select2 data-placeholder="Select Country" id="pNationality" name="pNationality"
+            select-selection="recordToUpdate.contact.country" select-options="nation in nationalities">
+            <option value="" disabled selected></option>
+          </select>
+          <div ng-if="recordToUpdate.contact.country == 'INDIA'">
+            <select class="form-control custom-select2" data-js-select2 id="pstate" name="pstate" select-selection="recordToUpdate.contact.state"
+              data-placeholder="Please Select State" select-options="state in indianStates" required>
+              <option value="" disabled selected></option>
+            </select>
+          </div>
+          <div ng-if="recordToUpdate.contact.country != 'INDIA'">
+            <input id="pstate" name="pstate" placeholder="State name" ng-model="recordToUpdate.contact.state" class="form-control" type="text"
+              required>
+          </div>
+          <input id="pPincode" name="pPincode" placeholder="Pin Code" ng-model="recordToUpdate.contact.pincode" class="form-control"
+            type="text" required>
+        </div>
+
+        <fieldset class="col-sm-4 displayFieldOneCol" ng-disabled="recordToUpdate.contact.sameAddress">
+          <label for="commAddressLine1" class="required">Current Address</label>
+          <input id="commAddressLine1" placeholder="Address Line 1" ng-model="recordToUpdate.contact.commAddressLine1" class="form-control"
+            type="text">
+          <input id="commAddressLine2" placeholder="Address Line 2" ng-model="recordToUpdate.contact.commAddressLine2" class="form-control"
+            type="text">
+          <!--<input id="commCity" placeholder="City" ng-model="recordToUpdate.contact.commCity" class="form-control" type="text">-->
+          <select class="form-control custom-select2" data-js-select2 data-placeholder="Select/Enter City" id="commCity" name="commCity"
+            select-selection="recordToUpdate.contact.commCity" select-options="city in cities" select-add-item="true" select-add-callback="addNewItemToLookup"
+            select-lookup-name="cities" required ng-disabled="recordToUpdate.contact.sameAddress">
+            <option value="" disabled selected></option>
+            <!-- <option ng-value="0">Others</option> -->
+          </select>
+          <select class="form-control custom-select2" data-js-select2 data-placeholder="Select Country" id="cNationality" name="cNationality"
+            select-selection="recordToUpdate.contact.commCountry" select-options="nation in nationalities" ng-disabled="recordToUpdate.contact.sameAddress">
+            <option value="" disabled selected></option>
+          </select>
+          <div ng-if="recordToUpdate.contact.commCountry == 'INDIA'">
+            <select class="form-control custom-select2" data-js-select2 select-selection="recordToUpdate.contact.commState" id="cstate"
+              name="cstate" data-placeholder="Please Select State" select-options="state in indianStates" ng-disabled="recordToUpdate.contact.sameAddress">
+              <option value="" disabled selected></option>
+            </select>
+          </div>
+          <div ng-if="recordToUpdate.contact.commCountry != 'INDIA'">
+            <input id="cstate" name="cstate" placeholder="State name" ng-model="recordToUpdate.contact.commState" class="form-control"
+              type="text">
+          </div>
+          <input id="czip" placeholder="Pin Code" ng-model="recordToUpdate.contact.commPincode" class="form-control" type="text">
+        </fieldset>
+        <div class="col-sm-4">
+          <label for="landlineNumber">Landline number</label>
+          <input id="landlineNumber" ng-model="recordToUpdate.contact.landlineNumber" class="form-control" type="text">
+          <label class="css-input css-checkbox css-checkbox-primary" for="sameAddress">
+            <input type="checkbox" id="sameAddress" ng-model="recordToUpdate.contact.sameAddress">
+            <span></span> Current Address same as Permanent Address? </label>
+        </div>
+      </div>
+      <div class="row form-group pull-right">
+        <div class="col-sm-12">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('contact', false)" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('contact', 0)" ng-disabled="contactInfo.$invalid"
+            type="submit">Save Changes</button>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </form>
+  </div>
+</div>

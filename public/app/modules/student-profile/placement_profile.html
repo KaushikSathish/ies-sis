@@ -1,0 +1,154 @@
+<div class="profile-section">
+    <!--START - profile-sections HEADER-->
+    <div class="profile-sections-header-w">
+        <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewPlacementInfo" href="javascript:void(0)">
+            <i class="icon-menu-open"></i>
+        </a>
+        <h5 class="profile-sections-header">Placement Offer</h5>
+        <a data-target="#placementSectionItemModal" data-toggle="modal" class="add-task-btn" data-backdrop="static" data-keyboard="false"
+            ng-click="setEnvironmentAddSectionItem('placement')">
+            <i class="icon-plus-circle2"></i>
+            <span>Add Placement Offer </span>
+        </a>
+    </div>
+    <!--END - profile-sections HEADER-->
+    <div id="viewPlacementInfo" class="collapse in">
+        <div class="row jobs-item with-thumb">
+            <div ng-repeat="placement in studentRecord.placement">
+                <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['placement'] && (editableSectionIndex == $index))">
+                    <div class="pull-right">
+                        <a ng-click="setEnvironmentDeleteOnConfirmation('placement', placement.itemIndex)" class="floating-hyperlink js-swal-confirm"
+                            type="button" data-js-block-option>
+                            <i class="icon-trash"></i>
+                        </a>
+                        <a data-target="#placementSectionItemModal" data-backdrop="static" data-keyboard="false" data-toggle="modal" class="floating-hyperlink"
+                            ng-click="setEnvironmentForEditItem('placement', true, placement.itemIndex, 0)">
+                            <i class="icon-pencil7"></i>
+                        </a>
+                    </div>
+                    <h5 class="title">{{placement.placementDesignation}}</h5>
+                    <ul class="list">
+                        <li>{{placement.placementCompany}}, {{placement.placementCity}}</li>
+                        <li>
+                            <label>Date Placed:</label> {{placement.placementDatePlaced}},
+                            <label>DOJ:</label> {{ placement.placementDateOfJoining}}</li>
+                        <li>
+                            <label>Point of Contact: </label> {{placement.pocName}}, {{placement.pocNo}} - {{placement.pocEmail}}</li>
+                        <li class="wrap-text">{{placement.placementDescription}} </li>
+                        <li>
+                            <label>Placement Offer Letter :</label>
+                            <span class="tags" ng-repeat="file in placement.placementOfferLetter" ng-if="(placement.placementOfferLetter.length > 0)">
+                                <a class="tag" ng-click="openAttachedFile('placement', placement.itemIndex, 'placementOfferLetter', file.originalname)" href="javascript:void(0)">{{file.originalname}}</a>
+                            </span>
+                            <span ng-if="(placement.placementOfferLetter.length == 0)">
+                                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Start placement offer Add/Edit Section-->
+    <div id="placementSectionItemModal" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="edit('placement', false)" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"> Add/ Edit placement Offer</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="editPlacementInfo" ng-show="editable['placement']" name="placementInfo">
+                        <div class="row form-group">
+                            <div class="col-sm-4">
+                                <label for="studentDesignation" class="required">Designation</label>
+                                <input id="studentDesignation" required ng-model="recordToUpdate.placement.placementDesignation" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="studentCompanyName" class="required">Company Name</label>
+                                <input id="studentCompanyName" required ng-model="recordToUpdate.placement.placementCompany" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="studentCompanyName" class="required">Location </label>
+                                <select class="form-control custom-select2" required data-js-select2 data-placeholder="Select/Enter City" id="studentCompanyName"
+                                    name="studentCompanyName" select-selection="recordToUpdate.placement.placementCity" select-options="city in cities"
+                                    select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-4 inner-split">
+                                <div class="col-sm-6">
+                                    <label for="placementDatePlaced" class="required">Date Placed</label>
+                                    <input id="placementDatePlaced" required class="form-control" data-date-end-date="0d" data-js-datepicker type="text" datepicker-date="recordToUpdate.placement.placementDatePlaced"
+                                        data-date-format="dd/M/yyyy" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="placementDateOfJoining" class="required">Date of Joining</label>
+                                    <input id="placementDateOfJoining" required class="form-control" data-js-datepicker type="text" datepicker-date="recordToUpdate.placement.placementDateOfJoining"
+                                        data-date-format="dd/M/yyyy" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label for="studentCTC" class="required">CTC</label>
+                                <input id="studentCTC" required ng-model="recordToUpdate.placement.studentCTC" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="css-input css-checkbox css-checkbox-primary" for="studentOnCampus">On Campus Placement
+                                    <input id="studentOnCampus" ng-model="recordToUpdate.placement.studentOnCampus" class="form-control pull-right" type="checkbox">
+                                    <span class="push-5-l"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row  form-group">
+                            <div class="col-sm-4">
+                                <div>
+                                    <label for="pocName">PoC Contact Name</label>
+                                    <input id="pocName" name="pocName" ng-model="recordToUpdate.placement.pocName" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div>
+                                    <label for="pocNo">PoC Contact Number</label>
+                                    <input id="pocNo" name="pocNo" ng-model="recordToUpdate.placement.pocNo" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div>
+                                    <label for="pocEmail">PoC Contact Email</label>
+                                    <input id="pocEmail" name="pocEmail" ng-model="recordToUpdate.placement.pocEmail" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-sm-8">
+                                <label for="studentdesp">Description</label>
+                                <textarea id="studentdesp" ng-model="recordToUpdate.placement.placementDescription" class="form-control stdTextarea" type="text"></textarea>
+                            </div>
+                            <div class="col-sm-4" "editable['placement']">
+                                <label for="placementOfferLetter">Placement Offer Letter</label>
+                                <div ng-if="(recordToUpdate.placement.placementOfferLetter.length > 0)" class="tags" ng-repeat="file in recordToUpdate.placement.placementOfferLetter">
+                                    <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                                        <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'placementOfferLetter')"></i>
+                                    </a>
+                                </div>
+
+                                <div ng-if="((recordToUpdate.placement.placementOfferLetter.length == 0) || (placementOfferLetter['dupeMaxFiles'])) && notToggle"
+                                    id="placementOfferLetter" ng-click="captureFieldName('placementOfferLetter')" class="dropzone"
+                                    options="fileAttachment['placementOfferLetter'].dzOptions" callbacks="fileAttachment['placementOfferLetter'].dzCallbacks"
+                                    methods="fileAttachment['placementOfferLetter'].dzMethods" ng-dropzone></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary m-r-10" ng-click="edit('placement', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+                    <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('placement', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!--End placement Offer Add/Edit Section-->
+</div>

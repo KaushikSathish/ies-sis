@@ -1,0 +1,162 @@
+<div class="profile-section">
+  <!--START - profile-sections HEADER-->
+  <div class="profile-sections-header-w">
+    <a class="profile-sections-header-toggler" data-toggle="collapse" data-target="#viewCompetitionInfo" href="javascript:void(0)">
+      <i class="icon-menu-open"></i>
+    </a>
+    <h5 class="profile-sections-header">Competition</h5>
+    <a class="add-task-btn" data-target="#competitionSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+      ng-click="setEnvironmentAddSectionItem('competition')">
+      <i class="icon-plus-circle2"></i>
+      <span>Add Competition</span>
+    </a>
+  </div>
+  <!--END - profile-sections HEADER-->
+  <div id="viewCompetitionInfo" class="collapse in">
+    <div class="row jobs-item with-thumb">
+      <div ng-repeat="competition in studentRecord.competition">
+        <div class="col-sm-6 padded-b padded-t b-b b-r" ng-hide="(editable['competition'] && (editableSectionIndex == $index))">
+          <div class="pull-right">
+            <a ng-click="setEnvironmentDeleteOnConfirmation('competition', competition.itemIndex)" class="floating-hyperlink js-swal-confirm"
+              type="button" data-js-block-option>
+              <i class="icon-trash"></i>
+            </a>
+
+            <a data-target="#competitionSectionItemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false" class="floating-hyperlink"
+              ng-click="setEnvironmentForEditItem('competition', true, competition.itemIndex,0)">
+              <i class="icon-pencil7"></i>
+            </a>
+          </div>
+          <h5 class="title">{{competition.competitionName}} </h5>
+          <ul class="list">
+            <li>{{competition.competitionCategory}}, {{competition.competitionType}} Competition</li>
+            <li> {{competition.competitionRole}}
+              <span>{{competition.competitionPrize}}</span>
+            </li>
+            <li> {{competition.competitionOrgName}}, {{competition.location}} </li>
+            <li> {{competition.competitionDate}}</li>
+            <li>{{competition.competitionDescription}} </li>
+            <li>
+              <label>Competition Appreciation Certificate:</label>
+              <span class="tags" ng-repeat="file in competition.competitionCertificate" ng-if="(competition.competitionCertificate.length > 0)">
+                <a class="tag" ng-click="openAttachedFile('competition', competition.itemIndex, 'competitionCertificate', file.originalname)"
+                  href="javascript:void(0)">{{file.originalname}}</a>
+              </span>
+              <span ng-if="(competition.competitionCertificate.length == 0)">
+                <a class="cursor-default" href="javascript:void(0)">Not Uploaded</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="competitionSectionItemModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="edit('competition', false)" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"> Add/ Edit Competition </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editCompetitionInfo" name="competitionInfo">
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentCompetitionName" class="required">Competition Title </label>
+                <input id="studentCompetitionName" required ng-model="recordToUpdate.competition.competitionName" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="competitionCategory" class="required">Competition Category</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Competition Category" id="competitionCategory"
+                  name="competitionCategory" select-selection="recordToUpdate.competition.competitionCategory" select-options="category in eventCategories">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="competitionType">Competition Level</label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Competition Type" id="competitionType" name="competitionType"
+                  select-selection="recordToUpdate.competition.competitionType" select-options="Type in eventTypes">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="studentCompetitionDate" class="required">Date of Competition</label>
+                <input class="form-control custom-datepicker" required data-js-datepicker datepicker-date="recordToUpdate.competition.competitionDate"
+                  type="text" id="studentCompetitionDate" name="studentCompetitionDate" data-date-format="dd/M/yyyy" placeholder="From">
+              </div>
+
+              <div class="col-sm-4">
+                <label for="competitionPrize">Recognition </label>
+                <select class="form-control" data-js-select2 data-placeholder="Select Competition Prize" id="competitionPrize" name="competitionPrize"
+                  select-selection="recordToUpdate.competition.competitionPrize" select-options="competitionPrize in eventPrizes" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="eventPrizes">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-4">
+                <label for="organizingBody" class="required">Organizing Body</label>
+                <select class="form-control" required data-js-select2 data-placeholder="Select Organizing Body " id="organizingBody" name="organizingBody"
+                  select-selection="recordToUpdate.competition.organizingBody" select-options="organizingB in organizingBody">
+                  <option value="" disabled selected></option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label for="competitionOrgName" class="required">Name of the Organization</label>
+                <select class="form-control" required data-js-select2 ng-if="recordToUpdate.competition.organizingBody=='Clubs'" data-placeholder="Select the Club"
+                  id="competitionOrgName" name="competitionOrgName" select-selection="recordToUpdate.competition.competitionOrgName"
+                  select-options="competitionOrgName in clubs">
+                  <option value="" disabled selected></option>
+                </select>
+                <select class="form-control" data-js-select2 ng-if="recordToUpdate.competition.organizingBody=='Associations'" data-placeholder="Select the Association"
+                  id="competitionOrgName" name="competitionOrgName" select-selection="recordToUpdate.competition.competitionOrgName"
+                  select-options="competitionOrgName in associations">
+                  <option value="" disabled selected></option>
+                </select>
+                <input ng-init="recordToUpdate.competition.competitionOrgName = ''" id="competitionOrgName" ng-if="recordToUpdate.competition.organizingBody !='Clubs'&& recordToUpdate.competition.organizingBody !='Associations'"
+                  ng-model="recordToUpdate.competition.competitionOrgName" class="form-control" type="text">
+              </div>
+              <div class="col-sm-4">
+                <label for="location" class="required">Location </label>
+                <select data-js-select2 class="form-control" select-selection="recordToUpdate.competition.location" data-placeholder="Select City"
+                select-options="city in cities" select-add-item="true" select-add-callback="addNewItemToLookup" select-lookup-name="cities">
+                <option value="" disabled></option>
+              </select>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-sm-8">
+                <label for="studentCompetitiondesp">Description</label>
+                <textarea id="studentCompetitiondesp" ng-model="recordToUpdate.competition.competitionDescription" class="form-control stdTextarea"
+                  type="text"></textarea>
+              </div>
+              <div class="col-sm-4" "editable['competition']">
+                <label for="competitionCertificate">Competition Appreciation Certificate</label>
+                <div ng-if="(recordToUpdate.competition.competitionCertificate.length > 0)" class="tags" ng-repeat="file in recordToUpdate.competition.competitionCertificate">
+                  <a class="tag cursor-default" href="javascript:void(0)">{{file.originalname}}
+                    <i class="icon-close2 push-5-l cursor-pointer" ng-click="setEnvironmentRemoveAttachment(file, 'competitionCertificate')"></i>
+                  </a>
+                </div>
+
+                <div ng-if="((recordToUpdate.competition.competitionCertificate.length == 0) || (competitionCertificate['dupeMaxFiles'])) && notToggle"
+                  id="competitionCertificate" ng-click="captureFieldName('competitionCertificate')" class="dropzone" options="fileAttachment['competitionCertificate'].dzOptions"
+                  callbacks="fileAttachment['competitionCertificate'].dzCallbacks" methods="fileAttachment['competitionCertificate'].dzMethods"
+                  ng-dropzone></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary m-r-10" ng-click="edit('competition', false)" data-dismiss="modal" type="submit">Discard Changes</button>
+          <button class="btn btn-primary" ng-click="setEnvironmentSaveSectionItem('competition', 0)" data-dismiss="modal" type="submit">Save Changes</button>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
