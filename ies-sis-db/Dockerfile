@@ -6,7 +6,7 @@ RUN mkdir -p /data/db2 \
     && echo "dbpath = /data/db2" > /etc/mongodb.conf \
     && chown -R mongodb:mongodb /data/db2
 
-COPY ies-sis-db /data/db2
+COPY . /data/db2
 
 CMD ["mongod"]
 
